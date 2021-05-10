@@ -1,7 +1,10 @@
 module Backend exposing (..)
 
+import Backend.Cmd
+import Backend.Update
 import Html
 import Lamdera exposing (ClientId, SessionId)
+import Random
 import Types exposing (..)
 
 
@@ -20,8 +23,14 @@ app =
 
 init : ( Model, Cmd BackendMsg )
 init =
-    ( { message = "Hello!" }
-    , Cmd.none
+    ( { message = "Hello!"
+
+      -- RANDOM
+      , randomSeed = Random.initialSeed 1234
+      , uuidCount = 0
+      , randomAtmosphericInt = Nothing
+      }
+    , Backend.Cmd.getRandomNumber
     )
 
 
@@ -30,6 +39,9 @@ update msg model =
     case msg of
         NoOpBackendMsg ->
             ( model, Cmd.none )
+
+        GotAtomsphericRandomNumber result ->
+            Backend.Update.gotAtomsphericRandomNumber model result
 
 
 updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd BackendMsg )
