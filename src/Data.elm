@@ -1,6 +1,15 @@
-module Data exposing (aboutCayatex)
+module Data exposing (aboutCayatex, docsNotFound)
 
 import Document exposing (empty)
+
+
+docsNotFound =
+    { empty
+        | title = "Oops!"
+        , author = "System"
+        , content = "[b Sorry, could not find your documents]"
+        , id = "sys0001"
+    }
 
 
 aboutCayatex =
@@ -8,6 +17,7 @@ aboutCayatex =
         | title = "Announcing CaYaTeX"
         , author = "James Carlson"
         , content = content
+        , id = "aboutCYT"
     }
 
 
