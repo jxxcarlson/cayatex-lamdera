@@ -1,6 +1,18 @@
-module Data exposing (..)
+module Data exposing (aboutCayatex)
 
-text = """
+import Document exposing (empty)
+
+
+aboutCayatex =
+    { empty
+        | title = "Announcing CaYaTeX"
+        , author = "James Carlson"
+        , content = content
+    }
+
+
+content =
+    """
 
 
 [title Announcing CaYaTeX]
@@ -557,6 +569,23 @@ cols m =
 
 [code raw##[image |caption: Rotkehlchen aufgeplustert, width: 200, placement: center| https://..jpg]##]
 
+
+[section2 SVG]
+
+[svg
+<svg xmlns="http://www.w3.org/2000/svg"
+ width="467" height="462">
+  <rect x="80" y="60" width="250" height="250" rx="20"
+      style="fill:#ff0000; stroke:#000000;stroke-width:2px;" />
+
+  <rect x="140" y="120" width="250" height="250" rx="40"
+      style="fill:#0000ff; stroke:#000000; stroke-width:2px;
+      fill-opacity:0.7;" />
+</svg>
+]
+
+[c raw##[svg <svg ... SVG CODE ... </svg> ]##]
+
 [section2 Lists]
 
 Note that lists can be nested and can be given a title if desired.  The symbol for "bulleted" lists is • by default, but can be specified by the user.
@@ -576,11 +605,13 @@ A numbered list has "numbered" as its first argument, as in the example below.
 
         [list |§, title:Greek symbols|
 
-            [item [math lpha = 0.123]]
+            [item [math \\alpha = 0.123]]
 
-            [item  [math eta = 4.567]]
+            [item  [math \\beta = 4.567]]
 
 ]]]
+
+
 
 [section1 Road map]
 
