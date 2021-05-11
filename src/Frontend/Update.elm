@@ -36,7 +36,8 @@ newDocument model =
 
                 doc =
                     { emptyDoc
-                        | author = user.realname
+                        | title = "New Document"
+                        , author = user.realname
                         , username = user.username
                         , content = "[title New Document]"
                     }
