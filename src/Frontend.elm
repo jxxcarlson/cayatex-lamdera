@@ -167,7 +167,7 @@ updateFromBackend msg model =
             ( { model
                 | documents = sortedDocs
                 , message = "Documents received: " ++ String.fromInt (List.length docs)
-                , currentDocument = List.head sortedDo |> Maybe.withDefault Data.docsNotFound
+                , currentDocument = List.head sortedDocs |> Maybe.withDefault Data.docsNotFound
               }
             , Cmd.none
             )
