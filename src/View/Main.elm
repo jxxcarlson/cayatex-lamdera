@@ -1,6 +1,7 @@
 module View.Main exposing (view)
 
 import CaYaTeX
+import Document exposing (Document)
 import Element as E exposing (Element)
 import Element.Background as Background
 import Element.Font as Font
@@ -31,7 +32,7 @@ mainColumn model =
             [ title "CaYaTeX"
             , buttonHeader model
             , E.column [ E.spacing 12 ]
-                [ E.row [ E.spacing 12 ] [ inputElement model, viewRendered model ]
+                [ E.row [ E.spacing 12 ] [ docList model, inputElement model, viewRendered model ]
                 ]
             , E.row [ E.moveUp 10, E.spacing 12, E.paddingXY 12 8, E.height (E.px 25), E.width (E.px (2 * panelWidth_ model + 15)), Font.size 14, View.Style.bgGray 0.1, View.Style.fgGray 1.0 ]
                 [ E.text model.message, E.text ("width: " ++ String.fromInt model.windowWidth), E.text ("height: " ++ String.fromInt model.windowHeight) ]
@@ -41,6 +42,24 @@ mainColumn model =
 
 buttonHeader model =
     E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn ]
+
+
+docList : Model -> Element FrontendMsg
+docList model =
+    E.column
+        [ View.Style.bgGray 0.85
+        , E.height (E.px (panelHeight_ model - 1))
+        , E.spacing 8
+        , E.width (E.px docListWidth)
+        , E.paddingXY 8 12
+        , E.moveUp 3
+        ]
+        (List.map docItemView model.documents)
+
+
+docItemView : Document -> Element FrontendMsg
+docItemView document =
+    E.el [ Font.size 13 ] (E.text document.title)
 
 
 inputElement : Model -> Element FrontendMsg
@@ -75,7 +94,11 @@ viewRendered model =
 
 
 panelWidth_ model =
-    min 600 ((model.windowWidth - 100) // 2)
+    min 600 ((model.windowWidth - 100 - docListWidth) // 2)
+
+
+docListWidth =
+    200
 
 
 appHeight_ model =
@@ -87,7 +110,7 @@ panelHeight_ model =
 
 
 appWidth_ model =
-    2 * panelWidth_ model + 15
+    2 * panelWidth_ model + docListWidth + 15
 
 
 mainColumnStyle model =
