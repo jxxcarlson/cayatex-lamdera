@@ -21,6 +21,7 @@ type alias FrontendModel =
 
     -- DOCUMENT
     , currentDocument : Document
+    , documents : List Document
     , counter : Int
     }
 
