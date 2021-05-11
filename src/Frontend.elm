@@ -3,11 +3,13 @@ module Frontend exposing (..)
 import Browser exposing (UrlRequest(..))
 import Browser.Events
 import Browser.Navigation as Nav
+import CaYaTeX
 import Data
 import Frontend.Cmd
 import Frontend.Update
 import Html exposing (Html)
 import Lamdera exposing (sendToBackend)
+import List.Extra
 import Types exposing (..)
 import Url
 import User
@@ -113,10 +115,16 @@ update msg model =
                 document =
                     model.currentDocument
 
+                newTitle =
+                    CaYaTeX.getTitle str
+
                 newDocument =
-                    { document | content = str }
+                    { document | content = str, title = newTitle }
+
+                documents =
+                    List.Extra.setIf (\doc -> doc.id == newDocument.id) newDocument model.documents
             in
-            ( { model | currentDocument = newDocument, counter = model.counter + 1 }, sendToBackend (SaveDocument newDocument) )
+            ( { model | documents = documents, currentDocument = newDocument, counter = model.counter + 1 }, sendToBackend (SaveDocument newDocument) )
 
         AskFoDocumentById id ->
             ( model, sendToBackend (GetDocumentById id) )
@@ -140,7 +148,7 @@ updateFromBackend msg model =
                     Util.insertInList doc model.documents
 
                 message =
-                    "Docements: " ++ String.fromInt (List.length documents)
+                    "Documents: " ++ String.fromInt (List.length documents)
             in
             ( { model | currentDocument = doc, documents = documents }, Cmd.none )
 

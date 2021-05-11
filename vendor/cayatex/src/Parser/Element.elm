@@ -1,6 +1,7 @@
 module Parser.Element exposing
     ( CYTMsg(..)
     , Element(..)
+    , getTitle
     , listParser
     , makeList
     , parse
@@ -53,6 +54,21 @@ type CYTMsg
 
 
 -- PARSER
+
+
+getTitle : String -> String
+getTitle str =
+    case str |> String.trim |> parse 0 0 of
+        Err _ ->
+            "Untitled"
+
+        Ok elt ->
+            case elt of
+                Element "title" [] (LX [ Text str_ _ ] _) _ ->
+                    str_
+
+                _ ->
+                    "Untitled"
 
 
 parse : Int -> Int -> String -> Result (List (Parser.DeadEnd Context Problem)) Element
