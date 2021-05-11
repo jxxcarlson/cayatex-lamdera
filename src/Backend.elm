@@ -62,8 +62,7 @@ updateFromFrontend sessionId clientId msg model =
 
         -- DOCUMENTS
         GetUserDocuments username ->
-            -- ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )
-            ( model, sendToFrontend clientId (SendDocuments model.documents) )
+            ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )
 
         SaveDocument document ->
             let
