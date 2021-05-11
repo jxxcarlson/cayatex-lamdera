@@ -65,7 +65,15 @@ docList model =
 
 docItemView : Document -> Element FrontendMsg
 docItemView document =
-    Button.linkTemplate (AskFoDocumentById document.id) document.title
+    let
+        title_ =
+            if document.title == "" then
+                "Untitled"
+
+            else
+                document.title
+    in
+    Button.linkTemplate (AskFoDocumentById document.id) title_
 
 
 inputElement : Model -> Element FrontendMsg

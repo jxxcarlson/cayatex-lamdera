@@ -65,7 +65,8 @@ updateFromFrontend sessionId clientId msg model =
         RunTest ->
             let
                 ids =
-                    List.map (\doc -> (doc.id |> String.left 5) ++ " (" ++ (doc.username |> String.left 3) ++ ": " ++ (doc.title |> String.left 5) ++ ")") model.documents
+                    List.map (\doc -> (doc.id |> String.left 5) ++ " (" ++ (doc.username |> String.left 3) ++ ": " ++ (doc.title |> String.left 5) ++ ")")
+                        (List.filter (\doc -> doc.username == "jxxcarlson") model.documents)
 
                 message =
                     "ids (" ++ String.fromInt (List.length ids) ++ "): " ++ String.join ", " ids
