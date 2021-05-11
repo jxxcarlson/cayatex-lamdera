@@ -1,4 +1,4 @@
-module Token exposing (get, randomWords)
+module Token exposing (get)
 
 import Random
 import Random.Char

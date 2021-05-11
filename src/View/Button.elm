@@ -3,6 +3,7 @@ module View.Button exposing
     , linkTemplate
     , newDocument
     , signIn
+    , test
     )
 
 import Element as E exposing (Element)
@@ -62,3 +63,8 @@ getDocument =
 signIn : Element FrontendMsg
 signIn =
     buttonTemplate SignIn "Sign in"
+
+
+test : Element FrontendMsg
+test =
+    buttonTemplate Test "Test"

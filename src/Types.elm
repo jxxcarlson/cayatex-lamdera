@@ -54,6 +54,8 @@ type FrontendMsg
     | GotViewport Dom.Viewport
       -- USER
     | SignIn
+      -- ADMIN
+    | Test
       -- DOC
     | InputText String
     | NewDocument
@@ -63,6 +65,8 @@ type FrontendMsg
 
 type ToBackend
     = NoOpToBackend
+      -- ADMIN
+    | RunTest
       -- DOCUMENT
     | SaveDocument Document
     | GetUserDocuments String

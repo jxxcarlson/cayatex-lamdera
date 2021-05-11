@@ -103,6 +103,10 @@ update msg model =
             , sendToBackend (GetUserDocuments User.defaultUser.username)
             )
 
+        -- ADMIN
+        Test ->
+            ( model, sendToBackend RunTest )
+
         -- DOCUMENT
         InputText str ->
             let

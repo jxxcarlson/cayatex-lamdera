@@ -61,6 +61,17 @@ updateFromFrontend sessionId clientId msg model =
         NoOpToBackend ->
             ( model, Cmd.none )
 
+        -- ADMIN
+        RunTest ->
+            let
+                ids =
+                    List.map (.id >> String.left 5) model.documents
+
+                message =
+                    "ids (" ++ String.fromInt (List.length ids) ++ "): " ++ String.join ", " ids
+            in
+            ( model, sendToFrontend clientId (SendMessage message) )
+
         -- DOCUMENTS
         GetUserDocuments username ->
             ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )

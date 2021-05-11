@@ -42,11 +42,11 @@ mainColumn model =
 
 footer model =
     E.row [ E.moveUp 10, E.spacing 12, E.paddingXY 12 8, E.height (E.px 25), E.width (E.px (2 * panelWidth_ model + 226)), Font.size 14, View.Style.bgGray 0.1, View.Style.fgGray 1.0 ]
-        [ E.text model.message, E.text ("width: " ++ String.fromInt model.windowWidth), E.text ("height: " ++ String.fromInt model.windowHeight) ]
+        [ E.text model.message ]
 
 
 buttonHeader model =
-    E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn, Button.newDocument ]
+    E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn, Button.newDocument, Button.test ]
 
 
 docList : Model -> Element FrontendMsg
