@@ -1,5 +1,6 @@
 module Types exposing (..)
 
+import Authentication exposing (AuthenticationDict)
 import Browser exposing (UrlRequest)
 import Browser.Dom as Dom
 import Browser.Navigation exposing (Key)
@@ -38,6 +39,9 @@ type alias BackendModel =
     , randomSeed : Random.Seed
     , uuidCount : Int
     , randomAtmosphericInt : Maybe Int
+
+    -- USER
+    , authenticationDict : AuthenticationDict
 
     -- DOCUMENT
     , documents : List Document

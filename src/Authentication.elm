@@ -1,4 +1,4 @@
-module Authentication exposing (..)
+module Authentication exposing (AuthenticationDict, authorized, encryptToken, insert)
 
 import Crypto.HMAC exposing (sha256)
 import Dict exposing (Dict)
@@ -21,6 +21,10 @@ type alias AuthenticationDict =
 insert : User -> String -> AuthenticationDict -> AuthenticationDict
 insert user token authDict =
     Dict.insert user.username { user = user, token = Crypto.HMAC.digest sha256 Env.authKey token } authDict
+
+
+encryptToken token =
+    Crypto.HMAC.digest sha256 Env.authKey token
 
 
 authorized : String -> String -> AuthenticationDict -> Bool

@@ -3,6 +3,7 @@ module Backend exposing (..)
 import Backend.Cmd
 import Backend.Update
 import Data
+import Dict
 import Html
 import Lamdera exposing (ClientId, SessionId, sendToFrontend)
 import List.Extra
@@ -32,6 +33,9 @@ init =
       , randomSeed = Random.initialSeed 1234
       , uuidCount = 0
       , randomAtmosphericInt = Nothing
+
+      -- USER
+      , authenticationDict = Dict.empty
 
       -- DOCUMENTS
       , documents =
