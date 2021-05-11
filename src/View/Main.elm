@@ -10,6 +10,7 @@ import Html exposing (Html)
 import Html.Attributes as Attr
 import Types exposing (..)
 import View.Button as Button
+import View.Color as Color
 import View.Style
 import View.Utility
 
@@ -49,17 +50,17 @@ docList model =
     E.column
         [ View.Style.bgGray 0.85
         , E.height (E.px (panelHeight_ model - 1))
-        , E.spacing 8
+        , E.spacing 4
         , E.width (E.px docListWidth)
         , E.paddingXY 8 12
         , E.moveUp 3
+        , Background.color Color.paleViolet
         ]
         (List.map docItemView model.documents)
 
 
 docItemView : Document -> Element FrontendMsg
 docItemView document =
-    -- E.el [ Font.size 13 ] (E.text document.title)
     Button.linkTemplate (AskFoDocumentById document.id) document.title
 
 
