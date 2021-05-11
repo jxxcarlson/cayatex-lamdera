@@ -35,10 +35,14 @@ mainColumn model =
             , E.column [ E.spacing 12 ]
                 [ E.row [ E.spacing 12 ] [ docList model, inputElement model, viewRendered model ]
                 ]
-            , E.row [ E.moveUp 10, E.spacing 12, E.paddingXY 12 8, E.height (E.px 25), E.width (E.px (2 * panelWidth_ model + 15)), Font.size 14, View.Style.bgGray 0.1, View.Style.fgGray 1.0 ]
-                [ E.text model.message, E.text ("width: " ++ String.fromInt model.windowWidth), E.text ("height: " ++ String.fromInt model.windowHeight) ]
+            , footer model
             ]
         ]
+
+
+footer model =
+    E.row [ E.moveUp 10, E.spacing 12, E.paddingXY 12 8, E.height (E.px 25), E.width (E.px (2 * panelWidth_ model + 226)), Font.size 14, View.Style.bgGray 0.1, View.Style.fgGray 1.0 ]
+        [ E.text model.message, E.text ("width: " ++ String.fromInt model.windowWidth), E.text ("height: " ++ String.fromInt model.windowHeight) ]
 
 
 buttonHeader model =
