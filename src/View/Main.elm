@@ -56,7 +56,7 @@ header model =
 
 
 notSignedInHeader model =
-    E.row [ E.spacing 12 ] [ Button.signIn, View.Input.usernameInput model ]
+    E.row [ E.spacing 12 ] [ Button.signIn, View.Input.usernameInput model, View.Input.passwordInput model ]
 
 
 signedInHeader model user =

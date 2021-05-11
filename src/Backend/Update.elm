@@ -1,12 +1,22 @@
-module Backend.Update exposing (..)
+module Backend.Update exposing
+    ( gotAtomsphericRandomNumber
+    , setupUser
+    )
 
+import Authentication
 import Lamdera exposing (ClientId, broadcast, sendToFrontend)
 import Random
+import Token
 import Types exposing (..)
+import User exposing (User)
 
 
 type alias Model =
     BackendModel
+
+
+
+-- SYSTEM
 
 
 gotAtomsphericRandomNumber : Model -> Result error String -> ( Model, Cmd msg )
@@ -31,3 +41,26 @@ gotAtomsphericRandomNumber model result =
 
         Err _ ->
             ( model, Cmd.none )
+
+
+
+-- USER
+
+
+setupUser : Model -> ClientId -> String -> String -> ( BackendModel, Cmd BackendMsg )
+setupUser model clientId username encryptedPassword =
+    let
+        { token, seed } =
+            Token.get model.randomSeed
+
+        tokenData =
+            Token.get seed
+
+        user =
+            { username = username, id = tokenData.token, realname = "Undefined", email = "Undefined" }
+
+        -- TO BE DEFINED LATER BY USER: realname, email
+        newAuthDict =
+            Authentication.insert user encryptedPassword model.authenticationDict
+    in
+    ( { model | randomSeed = tokenData.seed, authenticationDict = newAuthDict }, sendToFrontend clientId (SendMessage "Success! You have set up your CaYaTeX account") )

@@ -2,11 +2,36 @@ module Token exposing (get)
 
 import Random
 import Random.Char
+import Random.Int
 import Random.String
 
 
-get : Random.Seed -> Int -> Int -> { token : String, seed : Random.Seed }
-get seed n wordLength =
+get : Random.Seed -> { token : String, seed : Random.Seed }
+get seed_ =
+    let
+        { words, seed } =
+            randomWords seed_ 2 3
+
+        ( digits, newSeed ) =
+            Random.step (Random.Int.intGreaterThan 1000000) seed
+
+        digitString =
+            String.fromInt digits
+
+        a =
+            String.left 3 digitString
+
+        b =
+            String.left 3 (String.dropLeft 3 digitString)
+
+        token =
+            List.map2 (\alpha num -> String.left 2 alpha ++ num) words [ a, b ] |> String.join "."
+    in
+    { token = token, seed = newSeed }
+
+
+get_ : Random.Seed -> Int -> Int -> { token : String, seed : Random.Seed }
+get_ seed n wordLength =
     randomWords seed n wordLength |> (\result -> { token = String.join "-" result.words, seed = result.seed })
 
 

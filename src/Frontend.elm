@@ -1,5 +1,6 @@
 module Frontend exposing (..)
 
+import Authentication
 import Browser exposing (UrlRequest(..))
 import Browser.Events
 import Browser.Navigation as Nav
@@ -51,6 +52,7 @@ init url key =
       -- USER
       , currentUser = Nothing
       , inputUsername = ""
+      , inputPassword = ""
 
       -- DOCUMENT
       , counter = 0
@@ -102,12 +104,16 @@ update msg model =
 
         -- USER
         SignIn ->
-            ( { model | currentUser = Just User.defaultUser, message = "signed in" }
-            , sendToBackend (GetUserDocuments model.inputUsername)
+            ( { model | message = "signed in" }
+              -- , sendToBackend (GetUserDocuments model.inputUsername)
+            , sendToBackend (SignInOrSignUp model.inputUsername (Authentication.encrypt model.inputPassword))
             )
 
         InputUsername str ->
             ( { model | inputUsername = str }, Cmd.none )
+
+        InputPassword str ->
+            ( { model | inputPassword = str }, Cmd.none )
 
         SignOut ->
             ( { model | currentUser = Nothing, currentDocument = Data.notSignedIn, documents = [ Data.notSignedIn ] }, Cmd.none )
@@ -149,6 +155,11 @@ updateFromBackend msg model =
         NoOpToFrontend ->
             ( model, Cmd.none )
 
+        -- USER
+        SendUser user ->
+            ( { model | currentUser = Just user }, Cmd.none )
+
+        -- DOCUMENT
         SendDocument doc ->
             let
                 documents =

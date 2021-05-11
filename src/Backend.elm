@@ -1,5 +1,6 @@
 module Backend exposing (..)
 
+import Authentication
 import Backend.Cmd
 import Backend.Update
 import Data
@@ -80,6 +81,24 @@ updateFromFrontend sessionId clientId msg model =
             in
             ( { model | documents = filteredDocs }, sendToFrontend clientId (SendMessage message) )
 
+        -- USER
+        SignInOrSignUp username encryptedPassword ->
+            case Dict.get username model.authenticationDict of
+                Just userData ->
+                    if Authentication.verify username encryptedPassword model.authenticationDict then
+                        ( model
+                        , Cmd.batch
+                            [ sendToFrontend clientId (SendUser userData.user)
+                            , sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents))
+                            ]
+                        )
+
+                    else
+                        ( model, sendToFrontend clientId (SendMessage <| "Sorry, could not verify your credentials") )
+
+                Nothing ->
+                    Backend.Update.setupUser model clientId username encryptedPassword
+
         -- DOCUMENTS
         GetUserDocuments username ->
             ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )
@@ -87,7 +106,7 @@ updateFromFrontend sessionId clientId msg model =
         RegisterNewDocument doc_ ->
             let
                 { token, seed } =
-                    Token.get model.randomSeed 3 5
+                    Token.get model.randomSeed
 
                 doc =
                     { doc_ | id = token }

@@ -1,4 +1,4 @@
-module Authentication exposing (AuthenticationDict, authorized, encryptToken, insert)
+module Authentication exposing (AuthenticationDict, encrypt, insert, verify)
 
 import Crypto.HMAC exposing (sha256)
 import Dict exposing (Dict)
@@ -19,19 +19,20 @@ type alias AuthenticationDict =
 
 
 insert : User -> String -> AuthenticationDict -> AuthenticationDict
-insert user token authDict =
-    Dict.insert user.username { user = user, token = Crypto.HMAC.digest sha256 Env.authKey token } authDict
+insert user encryptedPassword authDict =
+    Dict.insert user.username { user = user, token = encryptedPassword } authDict
 
 
-encryptToken token =
-    Crypto.HMAC.digest sha256 Env.authKey token
+encrypt : String -> String
+encrypt str =
+    Crypto.HMAC.digest sha256 Env.authKey str
 
 
-authorized : String -> String -> AuthenticationDict -> Bool
-authorized username token authDict =
+verify : String -> String -> AuthenticationDict -> Bool
+verify username encryptedPassword authDict =
     case Dict.get username authDict of
         Nothing ->
             False
 
         Just data ->
-            token == data.token
+            encryptedPassword == data.token

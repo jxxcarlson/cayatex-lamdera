@@ -20,6 +20,7 @@ type alias FrontendModel =
     -- USER
     , currentUser : Maybe User
     , inputUsername : String
+    , inputPassword : String
 
     -- UI
     , windowWidth : Int
@@ -63,6 +64,7 @@ type FrontendMsg
     | SignIn
     | SignOut
     | InputUsername String
+    | InputPassword String
       -- ADMIN
     | Test
       -- DOC
@@ -76,6 +78,8 @@ type ToBackend
     = NoOpToBackend
       -- ADMIN
     | RunTest
+      -- USER
+    | SignInOrSignUp String String
       -- DOCUMENT
     | SaveDocument Document
     | GetUserDocuments String
@@ -90,6 +94,8 @@ type BackendMsg
 
 type ToFrontend
     = NoOpToFrontend
+      -- USER
+    | SendUser User
       -- DOCUMENT
     | SendDocument Document
     | SendDocuments (List Document)
