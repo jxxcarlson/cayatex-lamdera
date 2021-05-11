@@ -5,4 +5,8 @@ module Env exposing (..)
 
 
 dummyConfigItem =
-  ""
+    ""
+
+
+authKey =
+    "eqkzfABzpuw-vhxvh(!)nlspm-aubzrvz?/4$jhh-ekvdoAZ891Qoaeaw"
