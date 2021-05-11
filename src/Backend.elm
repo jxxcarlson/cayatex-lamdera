@@ -33,7 +33,12 @@ init =
       , randomAtmosphericInt = Nothing
 
       -- DOCUMENTS
-      , documents = [ Data.docsNotFound, Data.aboutCayatex ]
+      , documents =
+            [ Data.aboutCayatex
+            , Data.docsNotFound
+            , Data.notSignedIn
+            , Data.foo
+            ]
       }
     , Backend.Cmd.getRandomNumber
     )
@@ -54,6 +59,11 @@ updateFromFrontend sessionId clientId msg model =
     case msg of
         NoOpToBackend ->
             ( model, Cmd.none )
+
+        -- DOCUMENTS
+        GetUserDocuments username ->
+            -- ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )
+            ( model, sendToFrontend clientId (SendDocuments model.documents) )
 
         SaveDocument document ->
             let

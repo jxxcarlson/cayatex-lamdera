@@ -1,60 +1,48 @@
-module Types exposing (..)
+module Evergreen.V2.Types exposing (..)
 
-import Browser exposing (UrlRequest)
-import Browser.Dom as Dom
-import Browser.Navigation exposing (Key)
-import Data
-import Document exposing (Document)
+import Browser
+import Browser.Dom
+import Browser.Navigation
+import Evergreen.V2.Document
+import Evergreen.V2.Parser.Element
+import Evergreen.V2.User
 import Http
-import Parser.Element
 import Random
-import Url exposing (Url)
-import User exposing (User)
+import Url
 
 
 type alias FrontendModel =
-    { key : Key
+    { key : Browser.Navigation.Key
     , message : String
-    , currentUser : Maybe User
-
-    -- UI
+    , currentUser : Maybe Evergreen.V2.User.User
     , windowWidth : Int
     , windowHeight : Int
-
-    -- DOCUMENT
-    , currentDocument : Document
-    , documents : List Document
+    , currentDocument : Evergreen.V2.Document.Document
+    , documents : List Evergreen.V2.Document.Document
     , counter : Int
     }
 
 
 type alias BackendModel =
     { message : String
-
-    -- RANDOM
     , randomSeed : Random.Seed
     , uuidCount : Int
     , randomAtmosphericInt : Maybe Int
-
-    -- DOCUMENT
-    , documents : List Document
+    , documents : List Evergreen.V2.Document.Document
     }
 
 
 type alias CaYaTeXMsg =
-    Parser.Element.CYTMsg
+    Evergreen.V2.Parser.Element.CYTMsg
 
 
 type FrontendMsg
-    = UrlClicked UrlRequest
-    | UrlChanged Url
-      -- UI
+    = UrlClicked Browser.UrlRequest
+    | UrlChanged Url.Url
     | GotNewWindowDimensions Int Int
     | NoOpFrontendMsg
-    | GotViewport Dom.Viewport
-      -- USER
+    | GotViewport Browser.Dom.Viewport
     | SignIn
-      -- DOC
     | InputText String
     | AskFoDocumentById String
     | CYT CaYaTeXMsg
@@ -62,8 +50,7 @@ type FrontendMsg
 
 type ToBackend
     = NoOpToBackend
-      -- DOCUMENT
-    | SaveDocument Document
+    | SaveDocument Evergreen.V2.Document.Document
     | GetUserDocuments String
     | GetDocumentById String
 
@@ -75,7 +62,6 @@ type BackendMsg
 
 type ToFrontend
     = NoOpToFrontend
-      -- DOCUMENT
-    | SendDocument Document
-    | SendDocuments (List Document)
+    | SendDocument Evergreen.V2.Document.Document
+    | SendDocuments (List Evergreen.V2.Document.Document)
     | SendMessage String

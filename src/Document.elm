@@ -6,6 +6,7 @@ import Time
 type alias Document =
     { title : String
     , author : String
+    , username : String
     , id : String
     , created : Time.Posix
     , modified : Time.Posix
@@ -28,6 +29,7 @@ type Access
 empty =
     { title = ""
     , author = ""
+    , username = ""
     , id = "1"
     , created = Time.millisToPosix 0
     , modified = Time.millisToPosix 0

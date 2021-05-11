@@ -10,6 +10,7 @@ import Html exposing (Html)
 import Lamdera exposing (sendToBackend)
 import Types exposing (..)
 import Url
+import User
 import View.Main
 
 
@@ -44,12 +45,20 @@ init url key =
       , windowWidth = 600
       , windowHeight = 900
 
+      -- USER
+      , currentUser = Nothing
+
       -- DOCUMENT
       , counter = 0
-      , currentDocument = Data.docsNotFound
+      , documents = [ Data.notSignedIn ]
+      , currentDocument = Data.notSignedIn
       }
-    , Cmd.batch [ Frontend.Cmd.setupWindow, sendToBackend (GetDocumentById "aboutCYT") ]
+    , Cmd.batch [ Frontend.Cmd.setupWindow ]
     )
+
+
+
+-- , sendToBackend (GetDocumentById "aboutCYT")
 
 
 update : FrontendMsg -> Model -> ( Model, Cmd FrontendMsg )
@@ -87,6 +96,13 @@ update msg model =
         NoOpFrontendMsg ->
             ( model, Cmd.none )
 
+        -- USER
+        SignIn ->
+            ( { model | currentUser = Just User.defaultUser, message = "signed  in" }
+            , sendToBackend (GetUserDocuments User.defaultUser.username)
+            )
+
+        -- DOCUMENT
         InputText str ->
             let
                 document =
@@ -112,6 +128,11 @@ updateFromBackend msg model =
 
         SendDocument doc ->
             ( { model | currentDocument = doc }, Cmd.none )
+
+        SendDocuments docs ->
+            ( { model | documents = docs, message = "Documents received: " ++ String.fromInt (List.length docs) }
+            , Cmd.none
+            )
 
         SendMessage message ->
             ( { model | message = message }, Cmd.none )

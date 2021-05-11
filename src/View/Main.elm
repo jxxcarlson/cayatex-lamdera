@@ -8,6 +8,7 @@ import Element.Input as Input
 import Html exposing (Html)
 import Html.Attributes as Attr
 import Types exposing (..)
+import View.Button as Button
 import View.Style
 import View.Utility
 
@@ -27,8 +28,8 @@ mainColumn : Model -> Element FrontendMsg
 mainColumn model =
     E.column (mainColumnStyle model)
         [ E.column [ E.spacing 12, E.width (E.px <| appWidth_ model), E.height (E.px (appHeight_ model)) ]
-            [ title "CaYaTeX Test App"
-            , E.row [] [ getDocumentButton ]
+            [ title "CaYaTeX"
+            , buttonHeader model
             , E.column [ E.spacing 12 ]
                 [ E.row [ E.spacing 12 ] [ inputElement model, viewRendered model ]
                 ]
@@ -36,6 +37,10 @@ mainColumn model =
                 [ E.text model.message, E.text ("width: " ++ String.fromInt model.windowWidth), E.text ("height: " ++ String.fromInt model.windowHeight) ]
             ]
         ]
+
+
+buttonHeader model =
+    E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn ]
 
 
 inputElement : Model -> Element FrontendMsg
@@ -98,13 +103,3 @@ mainColumnStyle model =
 title : String -> Element msg
 title str =
     E.row [ E.centerX, View.Style.fgGray 0.9 ] [ E.text str ]
-
-
-getDocumentButton : Element FrontendMsg
-getDocumentButton =
-    E.row [ View.Style.bgGray 0.2 ]
-        [ Input.button View.Style.buttonStyle
-            { onPress = Just (AskFoDocumentById "jc0001")
-            , label = E.el [ E.centerX, E.centerY, Font.size 14 ] (E.text "Get document")
-            }
-        ]

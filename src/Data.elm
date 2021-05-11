@@ -1,12 +1,33 @@
-module Data exposing (aboutCayatex, docsNotFound)
+module Data exposing (aboutCayatex, docsNotFound, foo, notSignedIn)
 
 import Document exposing (empty)
+
+
+notSignedIn =
+    { empty
+        | title = "Not signed in"
+        , author = "System"
+        , username = "system"
+        , content = notSigneInText
+        , id = "sys0002"
+    }
+
+
+notSigneInText =
+    """
+[title Welcome!]
+
+[c Please sign in to work with your documents]
+
+[image |caption: Rotkehlchen aufgeplustert, width: 400, placement: center|https://i.pinimg.com/originals/d4/07/a4/d407a45bcf3ade18468ac7ba633244b9.jpg]
+"""
 
 
 docsNotFound =
     { empty
         | title = "Oops!"
         , author = "System"
+        , username = "system"
         , content = "[b Sorry, could not find your documents]"
         , id = "sys0001"
     }
@@ -16,8 +37,19 @@ aboutCayatex =
     { empty
         | title = "Announcing CaYaTeX"
         , author = "James Carlson"
+        , username = "jxxcarlson"
         , content = content
         , id = "aboutCYT"
+    }
+
+
+foo =
+    { empty
+        | title = "Foo"
+        , author = "James Carlson"
+        , username = "jxxcarlson"
+        , content = "This is a test"
+        , id = "foo222"
     }
 
 
