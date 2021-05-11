@@ -119,7 +119,7 @@ updateFromFrontend sessionId clientId msg model =
                     ( model
                     , Cmd.batch
                         [ sendToFrontend clientId (SendDocument doc)
-                        , sendToFrontend clientId (SendMessage ("Found & sent document: " ++ doc.title))
+                        , sendToFrontend clientId (SendMessage ("Found: " ++ doc.title))
                         ]
                     )
 

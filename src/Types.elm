@@ -54,6 +54,7 @@ type FrontendMsg
     | GotViewport Dom.Viewport
       -- USER
     | SignIn
+    | SignOut
       -- ADMIN
     | Test
       -- DOC

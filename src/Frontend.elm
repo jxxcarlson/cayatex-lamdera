@@ -105,6 +105,9 @@ update msg model =
             , sendToBackend (GetUserDocuments User.defaultUser.username)
             )
 
+        SignOut ->
+            ( { model | currentUser = Nothing, currentDocument = Data.notSignedIn, documents = [ Data.notSignedIn ] }, Cmd.none )
+
         -- ADMIN
         Test ->
             ( model, sendToBackend RunTest )

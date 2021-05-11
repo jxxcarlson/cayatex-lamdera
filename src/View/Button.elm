@@ -3,6 +3,7 @@ module View.Button exposing
     , linkTemplate
     , newDocument
     , signIn
+    , signOut
     , test
     )
 
@@ -48,6 +49,10 @@ linkStyle =
 
 
 -- BUTTONS
+
+
+signOut username =
+    buttonTemplate SignOut username
 
 
 newDocument : Element FrontendMsg

@@ -31,7 +31,7 @@ mainColumn model =
     E.column (mainColumnStyle model)
         [ E.column [ E.spacing 12, E.width (E.px <| appWidth_ model), E.height (E.px (appHeight_ model)) ]
             [ title "CaYaTeX"
-            , buttonHeader model
+            , header model
             , E.column [ E.spacing 12 ]
                 [ E.row [ E.spacing 12 ] [ docList model, inputElement model, viewRendered model ]
                 ]
@@ -45,8 +45,21 @@ footer model =
         [ E.text model.message ]
 
 
-buttonHeader model =
-    E.row [ E.spacing 12 ] [ Button.signIn, Button.newDocument, Button.test ]
+header model =
+    case model.currentUser of
+        Nothing ->
+            notSignedInHeader model
+
+        Just user ->
+            signedInHeader model user.username
+
+
+notSignedInHeader model =
+    E.row [ E.spacing 12 ] [ Button.signIn ]
+
+
+signedInHeader model username =
+    E.row [ E.spacing 12 ] [ Button.signOut username, Button.newDocument, Button.test ]
 
 
 docList : Model -> Element FrontendMsg
