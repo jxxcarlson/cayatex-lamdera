@@ -71,7 +71,7 @@ updateFromFrontend sessionId clientId msg model =
                     "ids (" ++ String.fromInt (List.length ids) ++ "): " ++ String.join ", " ids
 
                 filteredDocs =
-                    List.filter (\doc -> doc.id /= "1") model.documents
+                    List.filter (\doc -> doc.id /= "1" || String.length doc.title > 0) model.documents
             in
             ( { model | documents = filteredDocs }, sendToFrontend clientId (SendMessage message) )
 
