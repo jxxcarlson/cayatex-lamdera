@@ -75,11 +75,11 @@ docList model =
         , Background.color Color.paleViolet
         , E.scrollbarY
         ]
-        (List.map docItemView (List.sortBy (\doc -> doc.title) model.documents))
+        (List.map (docItemView model.currentDocument) (List.sortBy (\doc -> doc.title) model.documents))
 
 
-docItemView : Document -> Element FrontendMsg
-docItemView document =
+docItemView : Document -> Document -> Element FrontendMsg
+docItemView currentDocument document =
     let
         title_ =
             if document.title == "" then
@@ -87,8 +87,15 @@ docItemView document =
 
             else
                 document.title
+
+        fontColor =
+            if currentDocument.id == document.id then
+                Color.darkRed
+
+            else
+                Color.blue
     in
-    Button.linkTemplate (AskFoDocumentById document.id) title_
+    Button.linkTemplate (AskFoDocumentById document.id) fontColor title_
 
 
 inputElement : Model -> Element FrontendMsg

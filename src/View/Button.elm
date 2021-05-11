@@ -14,7 +14,6 @@ import Element.Input as Input
 import Types exposing (..)
 import View.Color as Color
 import View.Style
-import View.Utility
 
 
 
@@ -31,12 +30,12 @@ buttonTemplate msg label_ =
         ]
 
 
-linkTemplate : msg -> String -> Element msg
-linkTemplate msg label_ =
+linkTemplate : msg -> E.Color -> String -> Element msg
+linkTemplate msg fontColor label_ =
     E.row [ E.pointer, E.mouseDown [ Background.color Color.paleBlue ] ]
         [ Input.button linkStyle
             { onPress = Just msg
-            , label = E.el [ E.centerX, E.centerY, Font.size 14, Font.color Color.blue ] (E.text label_)
+            , label = E.el [ E.centerX, E.centerY, Font.size 14, Font.color fontColor ] (E.text label_)
             }
         ]
 
