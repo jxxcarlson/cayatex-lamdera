@@ -83,25 +83,23 @@ renderString2 k str =
             Parser.Document.runLoop k (String.lines str)
 
         ast =
-            Parser.Document.toParsed state |> List.head |> Maybe.andThen List.head |> Debug.log "AST"
+            Parser.Document.toParsed state |> List.head |> Maybe.andThen List.head
 
         title =
-            Debug.log "TITLE" <|
-                case ast of
-                    Nothing ->
-                        "Err: title not found"
+            case ast of
+                Nothing ->
+                    "Err: title not found"
 
-                    Just (Element "title" _ stuff _) ->
-                        -- Debug.toString list
-                        case stuff of
-                            LX [ Text str_ _ ] _ ->
-                                str_
+                Just (Element "title" _ stuff _) ->
+                    case stuff of
+                        LX [ Text str_ _ ] _ ->
+                            str_
 
-                            _ ->
-                                "Err: title not found"
+                        _ ->
+                            "Err: title not found"
 
-                    _ ->
-                        "Err: title not found"
+                _ ->
+                    "Err: title not found"
 
         newState =
             initStateWithData k state.data
