@@ -46,7 +46,7 @@ footer model =
 
 
 buttonHeader model =
-    E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn, Button.newDocument, Button.test ]
+    E.row [ E.spacing 12 ] [ Button.signIn, Button.newDocument, Button.test ]
 
 
 docList : Model -> Element FrontendMsg
@@ -60,7 +60,7 @@ docList model =
         , E.moveUp 3
         , Background.color Color.paleViolet
         ]
-        (List.map docItemView model.documents)
+        (List.map docItemView (List.sortBy (\doc -> doc.title) model.documents))
 
 
 docItemView : Document -> Element FrontendMsg
