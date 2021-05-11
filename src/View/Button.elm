@@ -23,11 +23,17 @@ buttonTemplate msg label_ =
 linkTemplate : msg -> String -> Element msg
 linkTemplate msg label_ =
     E.row [ E.pointer, E.mouseDown [ Background.color Color.paleBlue ] ]
-        [ Input.button View.Style.buttonStyle
+        [ Input.button linkStyle
             { onPress = Just msg
             , label = E.el [ E.centerX, E.centerY, Font.size 14, Font.color Color.blue ] (E.text label_)
             }
         ]
+
+
+linkStyle =
+    [ Font.color (E.rgb255 255 255 255)
+    , E.paddingXY 8 2
+    ]
 
 
 getDocument : Element FrontendMsg
