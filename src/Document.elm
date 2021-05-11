@@ -27,9 +27,9 @@ type Access
 
 
 empty =
-    { title = ""
-    , author = ""
-    , username = ""
+    { title = "Empty Doc"
+    , author = "No Name"
+    , username = "noname123"
     , id = "1"
     , created = Time.millisToPosix 0
     , modified = Time.millisToPosix 0
