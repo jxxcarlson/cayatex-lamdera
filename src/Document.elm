@@ -11,7 +11,18 @@ type alias Document =
     , modified : Time.Posix
     , tags : List String
     , content : String
+    , access : Access
     }
+
+
+type alias Username =
+    String
+
+
+type Access
+    = Public
+    | Private
+    | Restricted { canRead : List Username, canWrite : List Username }
 
 
 empty =
@@ -22,4 +33,5 @@ empty =
     , modified = Time.millisToPosix 0
     , tags = []
     , content = ""
+    , access = Private
     }
