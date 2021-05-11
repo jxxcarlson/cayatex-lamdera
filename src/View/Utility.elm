@@ -1,17 +1,40 @@
-module View.Utility exposing (cssNode, katexCSS, noFocus)
+module View.Utility exposing
+    ( cssNode
+    , getElementWithViewPort
+    , katexCSS
+    , noFocus
+    , setViewPortForSelectedLine
+    , setViewportForElement
+    )
 
+import Browser.Dom as Dom
 import Element exposing (Element)
 import Html
 import Html.Attributes as HA
+import Task exposing (Task)
 import Types exposing (FrontendMsg)
 
 
+setViewportForElement : String -> Cmd FrontendMsg
+setViewportForElement id =
+    Dom.getViewportOf "__RENDERED_TEXT__"
+        |> Task.andThen (\vp -> getElementWithViewPort vp id)
+        |> Task.attempt Types.SetViewPortForElement
 
---setViewportForElement : String -> Cmd FrontendMsg
---setViewportForElement id =
---    Dom.getViewportOf "__RENDERED_TEXT__"
---        |> Task.andThen (\vp -> getElementWithViewPort vp id)
---        |> Task.attempt Types.SetViewPortForElement
+
+setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd FrontendMsg
+setViewPortForSelectedLine element viewport =
+    let
+        y =
+            viewport.viewport.y + element.element.y - element.element.height - 100
+    in
+    Task.attempt (\_ -> Types.NoOpFrontendMsg) (Dom.setViewportOf "__RENDERED_TEXT__" 0 y)
+
+
+getElementWithViewPort : Dom.Viewport -> String -> Task Dom.Error ( Dom.Element, Dom.Viewport )
+getElementWithViewPort vp id =
+    Dom.getElement id
+        |> Task.map (\el -> ( el, vp ))
 
 
 noFocus : Element.FocusStyle

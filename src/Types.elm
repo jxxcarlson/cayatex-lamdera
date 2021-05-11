@@ -60,6 +60,7 @@ type FrontendMsg
     | GotNewWindowDimensions Int Int
     | NoOpFrontendMsg
     | GotViewport Dom.Viewport
+    | SetViewPortForElement (Result Dom.Error ( Dom.Element, Dom.Viewport ))
       -- USER
     | SignIn
     | SignOut

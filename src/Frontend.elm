@@ -16,6 +16,7 @@ import Url
 import User
 import Util
 import View.Main
+import View.Utility
 
 
 type alias Model =
@@ -98,6 +99,14 @@ update msg model =
 
         GotViewport vp ->
             Frontend.Update.updateWithViewport vp model
+
+        SetViewPortForElement result ->
+            case result of
+                Ok ( element, viewport ) ->
+                    ( model, View.Utility.setViewPortForSelectedLine element viewport )
+
+                Err _ ->
+                    ( model, Cmd.none )
 
         NoOpFrontendMsg ->
             ( model, Cmd.none )
