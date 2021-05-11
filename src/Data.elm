@@ -28,9 +28,19 @@ docsNotFound =
         | title = "Oops!"
         , author = "System"
         , username = "system"
-        , content = "[b Sorry, could not find your documents]"
+        , content = docsNotFoundText
         , id = "sys0001"
     }
+
+
+docsNotFoundText =
+    """
+[title Oops!]
+
+[i  Sorry, could not find your documents]
+
+[i To create a document, press the [b New] button above, on left.]
+"""
 
 
 aboutCayatex =
