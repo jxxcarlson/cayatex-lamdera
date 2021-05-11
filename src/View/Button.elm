@@ -1,4 +1,4 @@
-module View.Button exposing (getDocument, signIn)
+module View.Button exposing (getDocument, linkTemplate, signIn)
 
 import Element as E exposing (Element)
 import Element.Background as Background
@@ -16,6 +16,16 @@ buttonTemplate msg label_ =
         [ Input.button View.Style.buttonStyle
             { onPress = Just msg
             , label = E.el [ E.centerX, E.centerY, Font.size 14 ] (E.text label_)
+            }
+        ]
+
+
+linkTemplate : msg -> String -> Element msg
+linkTemplate msg label_ =
+    E.row [ E.pointer, E.mouseDown [ Background.color Color.paleBlue ] ]
+        [ Input.button View.Style.buttonStyle
+            { onPress = Just msg
+            , label = E.el [ E.centerX, E.centerY, Font.size 14, Font.color Color.blue ] (E.text label_)
             }
         ]
 

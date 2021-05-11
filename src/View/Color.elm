@@ -1,7 +1,15 @@
-module View.Color exposing (darkRed)
+module View.Color exposing (blue, darkRed, paleBlue)
 
 import Element as E
 
 
 darkRed =
     E.rgb255 140 0 0
+
+
+blue =
+    E.rgb255 0 0 200
+
+
+paleBlue =
+    E.rgb255 180 180 255

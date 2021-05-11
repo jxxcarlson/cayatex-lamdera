@@ -59,7 +59,8 @@ docList model =
 
 docItemView : Document -> Element FrontendMsg
 docItemView document =
-    E.el [ Font.size 13 ] (E.text document.title)
+    -- E.el [ Font.size 13 ] (E.text document.title)
+    Button.linkTemplate (AskFoDocumentById document.id) document.title
 
 
 inputElement : Model -> Element FrontendMsg
