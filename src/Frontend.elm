@@ -50,6 +50,7 @@ init url key =
 
       -- USER
       , currentUser = Nothing
+      , inputUsername = ""
 
       -- DOCUMENT
       , counter = 0
@@ -101,9 +102,12 @@ update msg model =
 
         -- USER
         SignIn ->
-            ( { model | currentUser = Just User.defaultUser, message = "signed  in" }
-            , sendToBackend (GetUserDocuments User.defaultUser.username)
+            ( { model | currentUser = Just User.defaultUser, message = "signed in" }
+            , sendToBackend (GetUserDocuments model.inputUsername)
             )
+
+        InputUsername str ->
+            ( { model | inputUsername = str }, Cmd.none )
 
         SignOut ->
             ( { model | currentUser = Nothing, currentDocument = Data.notSignedIn, documents = [ Data.notSignedIn ] }, Cmd.none )
@@ -156,7 +160,15 @@ updateFromBackend msg model =
             ( { model | currentDocument = doc, documents = documents }, Cmd.none )
 
         SendDocuments docs ->
-            ( { model | documents = docs, message = "Documents received: " ++ String.fromInt (List.length docs) }
+            let
+                sortedDocs =
+                    List.sortBy (\doc -> doc.title) docs
+            in
+            ( { model
+                | documents = sortedDocs
+                , message = "Documents received: " ++ String.fromInt (List.length docs)
+                , currentDocument = List.head sortedDo |> Maybe.withDefault Data.docsNotFound
+              }
             , Cmd.none
             )
 

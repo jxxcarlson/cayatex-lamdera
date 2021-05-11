@@ -11,6 +11,7 @@ import Html.Attributes as Attr
 import Types exposing (..)
 import View.Button as Button
 import View.Color as Color
+import View.Input
 import View.Style
 import View.Utility
 
@@ -51,15 +52,15 @@ header model =
             notSignedInHeader model
 
         Just user ->
-            signedInHeader model user.username
+            signedInHeader model user
 
 
 notSignedInHeader model =
-    E.row [ E.spacing 12 ] [ Button.signIn ]
+    E.row [ E.spacing 12 ] [ Button.signIn, View.Input.usernameInput model ]
 
 
-signedInHeader model username =
-    E.row [ E.spacing 12 ] [ Button.signOut username, Button.newDocument, Button.test ]
+signedInHeader model user =
+    E.row [ E.spacing 12 ] [ Button.signOut user.username, Button.newDocument, Button.test ]
 
 
 docList : Model -> Element FrontendMsg
@@ -72,6 +73,7 @@ docList model =
         , E.paddingXY 8 12
         , E.moveUp 3
         , Background.color Color.paleViolet
+        , E.scrollbarY
         ]
         (List.map docItemView (List.sortBy (\doc -> doc.title) model.documents))
 

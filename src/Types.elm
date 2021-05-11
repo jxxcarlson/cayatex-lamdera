@@ -15,7 +15,10 @@ import User exposing (User)
 type alias FrontendModel =
     { key : Key
     , message : String
+
+    -- USER
     , currentUser : Maybe User
+    , inputUsername : String
 
     -- UI
     , windowWidth : Int
@@ -55,6 +58,7 @@ type FrontendMsg
       -- USER
     | SignIn
     | SignOut
+    | InputUsername String
       -- ADMIN
     | Test
       -- DOC

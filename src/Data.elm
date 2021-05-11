@@ -19,7 +19,7 @@ notSigneInText =
 
 [c Please sign in to work with your documents]
 
-[image |caption: Rotkehlchen aufgeplustert, width: 400, placement: center|https://i.pinimg.com/originals/d4/07/a4/d407a45bcf3ade18468ac7ba633244b9.jpg]
+[image |width: 400, placement: center|https://i.pinimg.com/originals/d4/07/a4/d407a45bcf3ade18468ac7ba633244b9.jpg]
 """
 
 
