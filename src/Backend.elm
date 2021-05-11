@@ -63,10 +63,6 @@ updateFromFrontend sessionId clientId msg model =
             ( { model | documents = newDocuments }, sendToFrontend clientId (SendMessage ("Saved document: " ++ document.title)) )
 
         GetDocumentById id ->
-            let
-                _ =
-                    Debug.log "IDS" (List.map .id model.documents)
-            in
             case List.head (List.filter (\doc -> doc.id == id) model.documents) of
                 Nothing ->
                     ( model

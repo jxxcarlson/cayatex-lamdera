@@ -14,10 +14,6 @@ gotAtomsphericRandomNumber model result =
         Ok str ->
             case String.toInt (String.trim str) of
                 Nothing ->
-                    let
-                        _ =
-                            Debug.log "ERRROR" "could not get random atmos number"
-                    in
                     ( model, Cmd.none )
 
                 Just rn ->
@@ -26,8 +22,8 @@ gotAtomsphericRandomNumber model result =
                             Random.initialSeed rn
                     in
                     ( { model
-                        | randomAtmosphericInt = Just rn |> Debug.log "RN ATMOS"
-                        , randomSeed = newRandomSeed |> Debug.log "RN SEED"
+                        | randomAtmosphericInt = Just rn
+                        , randomSeed = newRandomSeed
                       }
                     , Cmd.none
                     )

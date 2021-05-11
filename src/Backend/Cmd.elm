@@ -6,10 +6,6 @@ import Types exposing (BackendMsg(..))
 
 getRandomNumber : Cmd BackendMsg
 getRandomNumber =
-    let
-        _ =
-            Debug.log "GET Rand Atmos" "now"
-    in
     Http.get
         { url = randomNumberUrl 9
         , expect = Http.expectString GotAtomsphericRandomNumber
