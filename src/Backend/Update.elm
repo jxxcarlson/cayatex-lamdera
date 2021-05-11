@@ -1,5 +1,6 @@
 module Backend.Update exposing (..)
 
+import Lamdera exposing (ClientId, broadcast, sendToFrontend)
 import Random
 import Types exposing (..)
 

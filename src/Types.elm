@@ -56,6 +56,7 @@ type FrontendMsg
     | SignIn
       -- DOC
     | InputText String
+    | NewDocument
     | AskFoDocumentById String
     | CYT CaYaTeXMsg
 
@@ -66,6 +67,7 @@ type ToBackend
     | SaveDocument Document
     | GetUserDocuments String
     | GetDocumentById String
+    | RegisterNewDocument Document
 
 
 type BackendMsg

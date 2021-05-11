@@ -7,6 +7,7 @@ import Html
 import Lamdera exposing (ClientId, SessionId, sendToFrontend)
 import List.Extra
 import Random
+import Token
 import Types exposing (..)
 
 
@@ -63,6 +64,27 @@ updateFromFrontend sessionId clientId msg model =
         -- DOCUMENTS
         GetUserDocuments username ->
             ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )
+
+        RegisterNewDocument doc_ ->
+            let
+                { token, seed } =
+                    Token.get model.randomSeed 3 5
+
+                doc =
+                    { doc_ | id = token }
+
+                newDocuments =
+                    doc :: model.documents
+
+                message =
+                    "Registered document: " ++ doc.title ++ "(" ++ String.fromInt (List.length newDocuments) ++ ")"
+            in
+            ( { model | randomSeed = seed, documents = newDocuments }
+            , Cmd.batch
+                [ sendToFrontend clientId (SendDocument doc)
+                , sendToFrontend clientId (SendMessage message)
+                ]
+            )
 
         SaveDocument document ->
             let

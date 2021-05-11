@@ -46,7 +46,7 @@ footer model =
 
 
 buttonHeader model =
-    E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn ]
+    E.row [ E.spacing 12 ] [ Button.getDocument, Button.signIn, Button.newDocument ]
 
 
 docList : Model -> Element FrontendMsg

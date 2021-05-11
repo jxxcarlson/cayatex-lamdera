@@ -1,4 +1,9 @@
-module View.Button exposing (getDocument, linkTemplate, signIn)
+module View.Button exposing
+    ( getDocument
+    , linkTemplate
+    , newDocument
+    , signIn
+    )
 
 import Element as E exposing (Element)
 import Element.Background as Background
@@ -8,6 +13,10 @@ import Types exposing (..)
 import View.Color as Color
 import View.Style
 import View.Utility
+
+
+
+-- TEMPLATES
 
 
 buttonTemplate : msg -> String -> Element msg
@@ -34,6 +43,15 @@ linkStyle =
     [ Font.color (E.rgb255 255 255 255)
     , E.paddingXY 8 2
     ]
+
+
+
+-- BUTTONS
+
+
+newDocument : Element FrontendMsg
+newDocument =
+    buttonTemplate NewDocument "New"
 
 
 getDocument : Element FrontendMsg

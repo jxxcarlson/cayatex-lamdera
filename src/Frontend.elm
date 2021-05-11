@@ -11,6 +11,7 @@ import Lamdera exposing (sendToBackend)
 import Types exposing (..)
 import Url
 import User
+import Util
 import View.Main
 
 
@@ -116,6 +117,9 @@ update msg model =
         AskFoDocumentById id ->
             ( model, sendToBackend (GetDocumentById id) )
 
+        NewDocument ->
+            Frontend.Update.newDocument model
+
         CYT _ ->
             ( model, Cmd.none )
 
@@ -127,7 +131,14 @@ updateFromBackend msg model =
             ( model, Cmd.none )
 
         SendDocument doc ->
-            ( { model | currentDocument = doc }, Cmd.none )
+            let
+                documents =
+                    Util.insertInList doc model.documents
+
+                message =
+                    "Docements: " ++ String.fromInt (List.length documents)
+            in
+            ( { model | currentDocument = doc, documents = documents }, Cmd.none )
 
         SendDocuments docs ->
             ( { model | documents = docs, message = "Documents received: " ++ String.fromInt (List.length docs) }

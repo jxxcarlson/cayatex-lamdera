@@ -1,13 +1,13 @@
-module Token exposing (randomWords, token)
+module Token exposing (get, randomWords)
 
 import Random
 import Random.Char
 import Random.String
 
 
-token : Random.Seed -> Int -> Int -> { word : String, seed : Random.Seed }
-token seed n wordLength =
-    randomWords seed n wordLength |> (\result -> { word = String.join "-" result.words, seed = result.seed })
+get : Random.Seed -> Int -> Int -> { token : String, seed : Random.Seed }
+get seed n wordLength =
+    randomWords seed n wordLength |> (\result -> { token = String.join "-" result.words, seed = result.seed })
 
 
 randomWords : Random.Seed -> Int -> Int -> { words : List String, seed : Random.Seed }
