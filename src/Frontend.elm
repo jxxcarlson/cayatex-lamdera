@@ -146,7 +146,9 @@ update msg model =
                 documents =
                     List.Extra.setIf (\doc -> doc.id == newDocument.id) newDocument model.documents
             in
-            ( { model | documents = documents, currentDocument = newDocument, counter = model.counter + 1 }, sendToBackend (SaveDocument newDocument) )
+            ( { model | documents = documents, currentDocument = newDocument, counter = model.counter + 1 }
+            , Frontend.Cmd.saveDocument model newDocument
+            )
 
         AskFoDocumentById id ->
             ( model, sendToBackend (GetDocumentById id) )
@@ -167,7 +169,7 @@ update msg model =
                         Shared _ ->
                             model.currentDocument
             in
-            ( Frontend.Update.updateCurrentDocument document model, sendToBackend (SaveDocument document) )
+            ( Frontend.Update.updateCurrentDocument document model, Frontend.Cmd.saveDocument model document )
 
         CYT _ ->
             ( model, Cmd.none )
