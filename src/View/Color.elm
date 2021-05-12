@@ -1,4 +1,12 @@
-module View.Color exposing (black, blue, darkRed, paleBlue, paleViolet, white)
+module View.Color exposing
+    ( black
+    , blue
+    , darkRed
+    , lightGray
+    , paleBlue
+    , paleViolet
+    , white
+    )
 
 import Element as E
 
@@ -6,6 +14,11 @@ import Element as E
 white : E.Color
 white =
     E.rgb 255 255 255
+
+
+lightGray : E.Color
+lightGray =
+    gray 0.9
 
 
 black : E.Color
@@ -31,3 +44,8 @@ paleBlue =
 paleViolet : E.Color
 paleViolet =
     E.rgb255 230 230 255
+
+
+gray : Float -> E.Color
+gray g =
+    E.rgb g g g

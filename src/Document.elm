@@ -1,4 +1,10 @@
-module Document exposing (Access(..), Document, empty, setAccess)
+module Document exposing
+    ( Access(..)
+    , Document
+    , empty
+    , setAccess
+    , wordCount
+    )
 
 import Time
 
@@ -41,3 +47,8 @@ empty =
 
 setAccess access document =
     { document | access = access }
+
+
+wordCount : Document -> Int
+wordCount doc =
+    doc.content |> String.words |> List.length
