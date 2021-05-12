@@ -82,4 +82,4 @@ handleSearchCommand username key docs =
         List.filter (\doc -> doc.access == Public) docs
 
     else
-        docs
+        List.filter (\doc -> String.contains (String.toLower key) (String.toLower doc.username)) docs
