@@ -113,10 +113,13 @@ update msg model =
 
         -- USER
         SignIn ->
-            ( { model | message = "signed in" }
-              -- , sendToBackend (GetUserDocuments model.inputUsername)
-            , sendToBackend (SignInOrSignUp model.inputUsername (Authentication.encrypt model.inputPassword))
-            )
+            if String.length model.inputPassword >= 8 then
+                ( model
+                , sendToBackend (SignInOrSignUp model.inputUsername (Authentication.encrypt model.inputPassword))
+                )
+
+            else
+                ( { model | message = "Password must be at least 8 letters long." }, Cmd.none )
 
         InputUsername str ->
             ( { model | inputUsername = str }, Cmd.none )

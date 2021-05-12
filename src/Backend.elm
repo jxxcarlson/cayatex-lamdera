@@ -94,7 +94,7 @@ updateFromFrontend sessionId clientId msg model =
                         )
 
                     else
-                        ( model, sendToFrontend clientId (SendMessage <| "Sorry, could not verify your credentials") )
+                        ( model, sendToFrontend clientId (SendMessage <| "Sorry, password and username don't match") )
 
                 Nothing ->
                     Backend.Update.setupUser model clientId username encryptedPassword

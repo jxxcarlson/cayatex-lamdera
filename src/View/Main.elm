@@ -55,7 +55,13 @@ header model =
 
 
 notSignedInHeader model =
-    E.row [ E.spacing 12 ] [ Button.signIn, View.Input.usernameInput model, View.Input.passwordInput model ]
+    E.row [ E.spacing 12, Font.size 14 ]
+        [ Button.signIn
+        , View.Input.usernameInput model
+        , View.Input.passwordInput model
+        , E.el [ E.height (E.px 31), E.paddingXY 12 3, Background.color Color.paleBlue ]
+            (E.el [ E.centerY ] (E.text model.message))
+        ]
 
 
 signedInHeader model user =

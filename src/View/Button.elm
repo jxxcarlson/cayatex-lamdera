@@ -68,7 +68,7 @@ getDocument =
 
 signIn : Element FrontendMsg
 signIn =
-    buttonTemplate SignIn "Sign in"
+    buttonTemplate SignIn "Sign in | Sign up"
 
 
 test : Element FrontendMsg

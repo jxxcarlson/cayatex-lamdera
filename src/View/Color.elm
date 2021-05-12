@@ -1,6 +1,16 @@
-module View.Color exposing (blue, darkRed, paleBlue, paleViolet)
+module View.Color exposing (black, blue, darkRed, paleBlue, paleViolet, white)
 
 import Element as E
+
+
+white : E.Color
+white =
+    E.rgb 255 255 255
+
+
+black : E.Color
+black =
+    E.rgb 20 20 20
 
 
 darkRed : E.Color
