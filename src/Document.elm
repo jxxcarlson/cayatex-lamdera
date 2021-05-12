@@ -101,7 +101,7 @@ handleSearchCommand username key docs =
             docs
 
         else
-            List.filter (\doc -> String.contains (String.toLower key) (String.toLower doc.username)) docs
+            List.filter (\doc -> String.contains (String.toLower key_) (String.toLower doc.username)) docs
 
     else
         docs
