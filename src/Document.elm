@@ -81,5 +81,27 @@ handleSearchCommand username key docs =
     else if key == "public" then
         List.filter (\doc -> doc.access == Public) docs
 
+    else if String.left 1 key == "t" then
+        let
+            key_ =
+                String.dropLeft 1 key |> String.trim
+        in
+        if String.length key_ < 3 then
+            docs
+
+        else
+            List.filter (\doc -> String.contains key_ doc.content) docs
+
+    else if String.left 1 key == "a" then
+        let
+            key_ =
+                String.dropLeft 1 key |> String.trim
+        in
+        if String.length key_ < 2 then
+            docs
+
+        else
+            List.filter (\doc -> String.contains (String.toLower key) (String.toLower doc.username)) docs
+
     else
-        List.filter (\doc -> String.contains (String.toLower key) (String.toLower doc.username)) docs
+        docs
