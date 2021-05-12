@@ -65,12 +65,17 @@ notSignedInHeader model =
 
 
 signedInHeader model user =
-    E.row [ E.spacing 12 ] [ Button.signOut user.username, Button.newDocument, Button.toggleAccess model, wordCount model ]
+    E.row [ E.spacing 12 ] [ Button.signOut user.username, Button.newDocument, Button.toggleAccess model, author model, wordCount model ]
 
 
 wordCount : Model -> Element FrontendMsg
 wordCount model =
-    E.el [ Font.size 14, Font.color Color.lightGray ] (E.text <| "Words: " ++ (String.fromInt <| Document.wordCount model.currentDocument))
+    E.el [ Font.size 14, Font.color Color.lightGray ] (E.text <| "words: " ++ (String.fromInt <| Document.wordCount model.currentDocument))
+
+
+author : Model -> Element FrontendMsg
+author model =
+    E.el [ Font.size 14, Font.color Color.lightGray ] (E.text <| "Author: " ++ model.currentDocument.username)
 
 
 docList : Model -> Element FrontendMsg
