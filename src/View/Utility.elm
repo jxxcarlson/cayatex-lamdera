@@ -1,6 +1,7 @@
 module View.Utility exposing
     ( cssNode
     , getElementWithViewPort
+    , htmlAttribute
     , katexCSS
     , noFocus
     , setViewPortForSelectedLine
@@ -62,3 +63,8 @@ katexCSS =
             , HA.attribute "href" "https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
             ]
             []
+
+
+htmlAttribute : String -> String -> Element.Attribute msg
+htmlAttribute key value =
+    Element.htmlAttribute (HA.attribute key value)

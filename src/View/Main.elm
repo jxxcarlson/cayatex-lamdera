@@ -119,7 +119,17 @@ inputText model =
 
 viewRendered : Model -> Element FrontendMsg
 viewRendered model =
-    E.column [ E.paddingXY 12 12, View.Style.bgGray 0.9, E.width (E.px (panelWidth_ model)), E.height (E.px (panelHeight_ model)), E.centerX, Font.size 14, E.alignTop, E.scrollbarY ]
+    E.column
+        [ E.paddingXY 12 12
+        , View.Style.bgGray 0.9
+        , E.width (E.px (panelWidth_ model))
+        , E.height (E.px (panelHeight_ model))
+        , E.centerX
+        , Font.size 14
+        , E.alignTop
+        , E.scrollbarY
+        , View.Utility.htmlAttribute "id" "__RENDERED_TEXT__"
+        ]
         [ View.Utility.katexCSS
         , CaYaTeX.renderString model.counter model.currentDocument.content |> E.map CYT
         ]

@@ -78,9 +78,8 @@ update msg model =
                         cmd =
                             case .fragment url of
                                 Just id ->
-                                    Cmd.none
+                                    View.Utility.setViewportForElement id
 
-                                -- View.Sync.setViewportForElement id
                                 Nothing ->
                                     Nav.pushUrl model.key (Url.toString url)
                     in
