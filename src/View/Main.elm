@@ -89,7 +89,8 @@ decoratedTitle doc =
         doc.title
 
     else
-        "(" ++ doc.title ++ ")"
+        -- Unicode: '\u{xxxx}'
+        String.fromChar '○' ++ " " ++ doc.title
 
 
 docItemView : Document -> Document -> Element FrontendMsg
