@@ -1,13 +1,12 @@
 module View.Main exposing (view)
 
 import CaYaTeX
-import Document exposing (Document)
+import Document exposing (Access(..), Document)
 import Element as E exposing (Element)
 import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
 import Html exposing (Html)
-import Html.Attributes as Attr
 import Types exposing (..)
 import View.Button as Button
 import View.Color as Color
@@ -78,6 +77,15 @@ docList model =
         (List.map (docItemView model.currentDocument) (List.sortBy (\doc -> doc.title) model.documents))
 
 
+decoratedTitle : Document -> String
+decoratedTitle doc =
+    if doc.access == Private then
+        doc.title
+
+    else
+        "(" ++ doc.title ++ ")"
+
+
 docItemView : Document -> Document -> Element FrontendMsg
 docItemView currentDocument document =
     let
@@ -86,7 +94,7 @@ docItemView currentDocument document =
                 "Untitled"
 
             else
-                document.title
+                decoratedTitle document
 
         fontColor =
             if currentDocument.id == document.id then
