@@ -58,6 +58,7 @@ init url key =
 
       -- DOCUMENT
       , counter = 0
+      , inputSearchKey = ""
       , documents = [ Data.notSignedIn ]
       , currentDocument = Data.notSignedIn
       }
@@ -162,6 +163,9 @@ update msg model =
 
         AskFoDocumentById id ->
             ( model, sendToBackend (GetDocumentById id) )
+
+        InputSearchKey str ->
+            ( { model | inputSearchKey = str }, Cmd.none )
 
         NewDocument ->
             Frontend.Update.newDocument model

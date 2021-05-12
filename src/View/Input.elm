@@ -1,9 +1,9 @@
-module View.Input exposing (passwordInput, usernameInput)
+module View.Input exposing (passwordInput, searchDocsInput, usernameInput)
 
 import Element as E exposing (Element, px)
 import Element.Font as Font
 import Element.Input as Input
-import Types exposing (FrontendMsg(..))
+import Types exposing (FrontendModel, FrontendMsg(..))
 
 
 inputFieldTemplate : String -> (String -> msg) -> String -> Element msg
@@ -25,6 +25,11 @@ passwordTemplate default msg text =
         , placeholder = Just <| Input.placeholder [ E.moveUp 5 ] (E.text default)
         , show = False
         }
+
+
+searchDocsInput : FrontendModel -> Element FrontendMsg
+searchDocsInput model =
+    inputFieldTemplate "Search" InputSearchKey model.inputSearchKey
 
 
 usernameInput model =

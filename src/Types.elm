@@ -29,6 +29,7 @@ type alias FrontendModel =
     -- DOCUMENT
     , currentDocument : Document
     , documents : List Document
+    , inputSearchKey : String
     , counter : Int
     }
 
@@ -70,6 +71,7 @@ type FrontendMsg
     | Test
       -- DOC
     | InputText String
+    | InputSearchKey String
     | NewDocument
     | AskFoDocumentById String
     | ToggleAccess

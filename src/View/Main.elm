@@ -78,11 +78,27 @@ author model =
     E.el [ Font.size 14, Font.color Color.lightGray ] (E.text <| "Author: " ++ model.currentDocument.username)
 
 
+searchDocPaneHeight =
+    40
+
+
 docList : Model -> Element FrontendMsg
 docList model =
+    E.column []
+        [ searchDocsPanel model
+        , docList_ model
+        ]
+
+
+searchDocsPanel model =
+    E.row [ E.height (E.px searchDocPaneHeight), E.width (E.px docListWidth) ] [ View.Input.searchDocsInput model ]
+
+
+docList_ : Model -> Element FrontendMsg
+docList_ model =
     E.column
         [ View.Style.bgGray 0.85
-        , E.height (E.px (panelHeight_ model - 1))
+        , E.height (E.px (panelHeight_ model - 3 - searchDocPaneHeight))
         , E.spacing 4
         , E.width (E.px docListWidth)
         , E.paddingXY 8 12
@@ -90,7 +106,9 @@ docList model =
         , Background.color Color.paleViolet
         , E.scrollbarY
         ]
-        (List.map (docItemView model.currentDocument) (List.sortBy (\doc -> doc.title) model.documents))
+        (List.map (docItemView model.currentDocument)
+            (List.sortBy (\doc -> doc.title) (Document.search model.currentUser model.inputSearchKey model.documents))
+        )
 
 
 decoratedTitle : Document -> String
