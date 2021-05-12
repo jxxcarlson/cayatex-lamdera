@@ -128,7 +128,14 @@ update msg model =
             ( { model | inputPassword = str }, Cmd.none )
 
         SignOut ->
-            ( { model | currentUser = Nothing, currentDocument = Data.notSignedIn, documents = [ Data.notSignedIn ] }, Cmd.none )
+            ( { model
+                | currentUser = Nothing
+                , currentDocument = Data.notSignedIn
+                , documents = [ Data.notSignedIn ]
+                , message = "Signed out"
+              }
+            , Cmd.none
+            )
 
         -- ADMIN
         Test ->
