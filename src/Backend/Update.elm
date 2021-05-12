@@ -4,6 +4,7 @@ module Backend.Update exposing
     )
 
 import Authentication
+import Document exposing (Access(..))
 import Lamdera exposing (ClientId, broadcast, sendToFrontend)
 import Random
 import Token
@@ -67,5 +68,6 @@ setupUser model clientId username encryptedPassword =
     , Cmd.batch
         [ sendToFrontend clientId (SendMessage "Success! You have set up your CaYaTeX account")
         , sendToFrontend clientId (SendUser user)
+        , sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.access == Public) model.documents))
         ]
     )

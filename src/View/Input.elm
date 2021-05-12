@@ -16,9 +16,20 @@ inputFieldTemplate default msg text =
         }
 
 
+passwordTemplate : String -> (String -> msg) -> String -> Element msg
+passwordTemplate default msg text =
+    Input.currentPassword [ E.moveUp 5, Font.size 16, E.height (px 33) ]
+        { onChange = msg
+        , text = text
+        , label = Input.labelHidden default
+        , placeholder = Just <| Input.placeholder [ E.moveUp 5 ] (E.text default)
+        , show = False
+        }
+
+
 usernameInput model =
     inputFieldTemplate "Username" InputUsername model.inputUsername
 
 
 passwordInput model =
-    inputFieldTemplate "Password" InputPassword model.inputPassword
+    passwordTemplate "Password" InputPassword model.inputPassword

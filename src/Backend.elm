@@ -88,8 +88,8 @@ updateFromFrontend sessionId clientId msg model =
                     if Authentication.verify username encryptedPassword model.authenticationDict then
                         ( model
                         , Cmd.batch
-                            [ sendToFrontend clientId (SendUser userData.user)
-                            , sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username || doc.access == Public) model.documents))
+                            [ sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username || doc.access == Public) model.documents))
+                            , sendToFrontend clientId (SendUser userData.user)
                             ]
                         )
 
