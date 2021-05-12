@@ -1,10 +1,12 @@
 module Frontend.Update exposing
     ( newDocument
+    , updateCurrentDocument
     , updateWithViewport
     )
 
 import Document exposing (Document)
 import Lamdera exposing (sendToBackend)
+import List.Extra
 import Types exposing (..)
 
 
@@ -43,3 +45,8 @@ newDocument model =
                     }
             in
             ( model, sendToBackend (RegisterNewDocument doc) )
+
+
+updateCurrentDocument : Document -> FrontendModel -> FrontendModel
+updateCurrentDocument doc model =
+    { model | currentDocument = doc, documents = List.Extra.setIf (\d -> d.id == doc.id) doc model.documents }

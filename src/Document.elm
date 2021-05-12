@@ -1,4 +1,4 @@
-module Document exposing (Document, empty)
+module Document exposing (Access(..), Document, empty, setAccess)
 
 import Time
 
@@ -23,7 +23,7 @@ type alias Username =
 type Access
     = Public
     | Private
-    | Restricted { canRead : List Username, canWrite : List Username }
+    | Shared { canRead : List Username, canWrite : List Username }
 
 
 empty =
@@ -37,3 +37,7 @@ empty =
     , content = ""
     , access = Private
     }
+
+
+setAccess access document =
+    { document | access = access }

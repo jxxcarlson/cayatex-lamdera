@@ -5,7 +5,7 @@ import Backend.Cmd
 import Backend.Update
 import Data
 import Dict
-import Html
+import Document exposing (Access(..))
 import Lamdera exposing (ClientId, SessionId, sendToFrontend)
 import List.Extra
 import Random
@@ -89,7 +89,7 @@ updateFromFrontend sessionId clientId msg model =
                         ( model
                         , Cmd.batch
                             [ sendToFrontend clientId (SendUser userData.user)
-                            , sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents))
+                            , sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username || doc.access == Public) model.documents))
                             ]
                         )
 

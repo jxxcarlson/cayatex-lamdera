@@ -5,8 +5,10 @@ module View.Button exposing
     , signIn
     , signOut
     , test
+    , toggleAccess
     )
 
+import Document exposing (Access(..))
 import Element as E exposing (Element)
 import Element.Background as Background
 import Element.Font as Font
@@ -72,3 +74,20 @@ signIn =
 test : Element FrontendMsg
 test =
     buttonTemplate Test "Test"
+
+
+toggleAccess : FrontendModel -> Element FrontendMsg
+toggleAccess model =
+    let
+        label =
+            case model.currentDocument.access of
+                Public ->
+                    "Public"
+
+                Private ->
+                    "Private"
+
+                Shared _ ->
+                    "Shared"
+    in
+    buttonTemplate ToggleAccess label

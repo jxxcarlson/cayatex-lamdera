@@ -6,6 +6,7 @@ import Browser.Events
 import Browser.Navigation as Nav
 import CaYaTeX
 import Data
+import Document exposing (Access(..))
 import Frontend.Cmd
 import Frontend.Update
 import Html exposing (Html)
@@ -152,6 +153,21 @@ update msg model =
 
         NewDocument ->
             Frontend.Update.newDocument model
+
+        ToggleAccess ->
+            let
+                document =
+                    case model.currentDocument.access of
+                        Public ->
+                            Document.setAccess Private model.currentDocument
+
+                        Private ->
+                            Document.setAccess Public model.currentDocument
+
+                        Shared _ ->
+                            model.currentDocument
+            in
+            ( Frontend.Update.updateCurrentDocument document model, sendToBackend (SaveDocument document) )
 
         CYT _ ->
             ( model, Cmd.none )

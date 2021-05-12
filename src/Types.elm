@@ -72,6 +72,7 @@ type FrontendMsg
     | InputText String
     | NewDocument
     | AskFoDocumentById String
+    | ToggleAccess
     | CYT CaYaTeXMsg
 
 

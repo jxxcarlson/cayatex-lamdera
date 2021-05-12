@@ -60,7 +60,7 @@ notSignedInHeader model =
 
 
 signedInHeader model user =
-    E.row [ E.spacing 12 ] [ Button.signOut user.username, Button.newDocument, Button.test ]
+    E.row [ E.spacing 12 ] [ Button.signOut user.username, Button.newDocument, Button.toggleAccess model ]
 
 
 docList : Model -> Element FrontendMsg
