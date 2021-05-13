@@ -34,7 +34,11 @@ mainColumn model =
             [ title "CaYaTeX"
             , header model
             , E.column [ E.spacing 12 ]
-                [ E.row [ E.spacing 12 ] [ docList model, inputElement model, viewRendered model ]
+                [ E.row [ E.spacing 12 ]
+                    [ docList model
+                    , View.Utility.showIf model.showEditor <| viewEditor model
+                    , viewRendered model
+                    ]
                 ]
             , footer model
             ]
@@ -43,8 +47,7 @@ mainColumn model =
 
 footer model =
     E.row
-        [ E.moveUp 10
-        , E.spacing 12
+        [ E.spacing 12
         , E.paddingXY 12 8
         , E.height (E.px 25)
         , E.width (E.px (2 * panelWidth_ model + 226))
@@ -83,6 +86,7 @@ signedInHeader model user =
         [ Button.signOut user.username
         , Button.newDocument
         , Button.toggleAccess model
+        , Button.toggleEditor model
         , author model
         , wordCount model
         , Button.adminPopup model
@@ -105,25 +109,28 @@ searchDocPaneHeight =
 
 docList : Model -> Element FrontendMsg
 docList model =
-    E.column []
+    E.column [ E.alignTop ]
         [ searchDocsPanel model
         , docList_ model
         ]
 
 
 searchDocsPanel model =
-    E.row [ E.height (E.px searchDocPaneHeight), E.width (E.px docListWidth) ] [ View.Input.searchDocsInput model ]
+    E.row
+        [ E.height (E.px searchDocPaneHeight)
+        , E.width (E.px docListWidth)
+        ]
+        [ View.Input.searchDocsInput model ]
 
 
 docList_ : Model -> Element FrontendMsg
 docList_ model =
     E.column
         [ View.Style.bgGray 0.85
-        , E.height (E.px (panelHeight_ model - 3 - searchDocPaneHeight))
+        , E.height (E.px (panelHeight_ model - searchDocPaneHeight))
         , E.spacing 4
         , E.width (E.px docListWidth)
         , E.paddingXY 8 12
-        , E.moveUp 3
         , Background.color Color.paleViolet
         , E.scrollbarY
         ]
@@ -162,17 +169,23 @@ docItemView currentDocument document =
     Button.linkTemplate (AskFoDocumentById document.id) fontColor title_
 
 
-inputElement : Model -> Element FrontendMsg
-inputElement model =
-    E.column [ E.spacing 8, E.alignTop, E.moveUp 8 ]
-        [ E.row [ E.spacing 12 ] []
-        , inputText model
+viewEditor : Model -> Element FrontendMsg
+viewEditor model =
+    E.column
+        [ E.alignTop
+        , E.spacing 8
+        ]
+        [ viewEditor_ model
         ]
 
 
-inputText : Model -> Element FrontendMsg
-inputText model =
-    Input.multiline [ E.height (E.px (panelHeight_ model)), E.width (E.px (panelWidth_ model)), Font.size 14 ]
+viewEditor_ : Model -> Element FrontendMsg
+viewEditor_ model =
+    Input.multiline
+        [ E.height (E.px (panelHeight_ model))
+        , E.width (E.px (panelWidth_ model))
+        , Font.size 14
+        ]
         { onChange = InputText
         , text = model.currentDocument.content
         , placeholder = Nothing
@@ -184,7 +197,7 @@ inputText model =
 viewRendered : Model -> Element FrontendMsg
 viewRendered model =
     E.column
-        [ E.paddingXY 12 12
+        [ E.paddingEach { left = 24, right = 24, top = 12, bottom = 96 }
         , View.Style.bgGray 0.9
         , E.width (E.px (panelWidth_ model))
         , E.height (E.px (panelHeight_ model))
@@ -216,7 +229,7 @@ appHeight_ model =
 
 
 panelHeight_ model =
-    appHeight_ model - 100
+    appHeight_ model - 110
 
 
 appWidth_ model =

@@ -8,6 +8,7 @@ module View.Button exposing
     , signOut
     , test
     , toggleAccess
+    , toggleEditor
     )
 
 import Config
@@ -53,7 +54,23 @@ linkStyle =
 
 
 
--- BUTTONS
+-- UI
+
+
+toggleEditor model =
+    let
+        title =
+            if model.showEditor then
+                "Hide Editor"
+
+            else
+                "Show Editor"
+    in
+    buttonTemplate ToggleEditor title
+
+
+
+-- DOCUMENT
 
 
 signOut username =
@@ -65,6 +82,10 @@ newDocument =
     buttonTemplate NewDocument "New"
 
 
+
+-- USER
+
+
 getDocument : Element FrontendMsg
 getDocument =
     buttonTemplate (AskFoDocumentById "aboutCYT") "Get document"
@@ -73,11 +94,6 @@ getDocument =
 signIn : Element FrontendMsg
 signIn =
     buttonTemplate SignIn "Sign in | Sign up"
-
-
-test : Element FrontendMsg
-test =
-    buttonTemplate Test "Test"
 
 
 toggleAccess : FrontendModel -> Element FrontendMsg
@@ -120,6 +136,12 @@ toggleAccess model =
 ----
 ----        PopupOpen _ ->
 ----            PopupOpen ChatPopup
+-- ADMIN
+
+
+test : Element FrontendMsg
+test =
+    buttonTemplate Test "Test"
 
 
 adminPopup : FrontendModel -> Element FrontendMsg

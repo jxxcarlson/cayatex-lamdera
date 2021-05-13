@@ -29,6 +29,7 @@ type alias FrontendModel =
     , windowWidth : Int
     , windowHeight : Int
     , popupStatus : PopupStatus
+    , showEditor : Bool
 
     -- DOCUMENT
     , currentDocument : Document
@@ -76,6 +77,7 @@ type FrontendMsg
     | GotViewport Dom.Viewport
     | SetViewPortForElement (Result Dom.Error ( Dom.Element, Dom.Viewport ))
     | ChangePopupStatus PopupStatus
+    | ToggleEditor
       -- USER
     | SignIn
     | SignOut

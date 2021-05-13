@@ -44,7 +44,7 @@ paleBlue =
 
 transparentBlue : E.Color
 transparentBlue =
-    E.rgba 0.5 0.5 1 0.9
+    E.rgba 0.9 0.9 1 0.9
 
 
 paleViolet : E.Color

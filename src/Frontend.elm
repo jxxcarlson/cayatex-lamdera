@@ -54,6 +54,7 @@ init url key =
       , windowWidth = 600
       , windowHeight = 900
       , popupStatus = PopupClosed
+      , showEditor = True
 
       -- USER
       , currentUser = Nothing
@@ -119,6 +120,9 @@ update msg model =
 
         NoOpFrontendMsg ->
             ( model, Cmd.none )
+
+        ToggleEditor ->
+            ( { model | showEditor = not model.showEditor }, Cmd.none )
 
         -- USER
         SignIn ->
