@@ -108,14 +108,8 @@ updateFromFrontend sessionId clientId msg model =
 
         GetDocumentsWithQuery user (Query searchTerm) ->
             let
-                _ =
-                    Debug.log "ST" searchTerm
-
                 docsFound =
                     Document.search user searchTerm model.documents
-
-                _ =
-                    Debug.log "TITLES FOUND" (List.map .title docsFound)
             in
             ( model, sendToFrontend clientId (SendDocuments docsFound) )
 
