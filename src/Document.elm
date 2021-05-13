@@ -97,7 +97,7 @@ handleSearchCommand username key docs =
             key_ =
                 String.dropLeft 1 key |> String.trim
         in
-        if String.length key_ < 3 then
+        if String.length key_ < 2 then
             docs
 
         else
