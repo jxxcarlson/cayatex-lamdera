@@ -2,6 +2,7 @@ module View.Button exposing
     ( adminPopup
     , getDocument
     , getUsers
+    , help
     , linkTemplate
     , newDocument
     , signIn

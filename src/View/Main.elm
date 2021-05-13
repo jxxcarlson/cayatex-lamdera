@@ -83,6 +83,7 @@ notSignedInHeader model =
         , View.Input.passwordInput model
         , E.el [ E.height (E.px 31), E.paddingXY 12 3, Background.color Color.paleBlue ]
             (E.el [ E.centerY ] (E.text model.message))
+        , Button.help
         ]
 
 
@@ -95,6 +96,7 @@ signedInHeader model user =
         , author model
         , wordCount model
         , Button.adminPopup model
+        , Button.help
         ]
 
 

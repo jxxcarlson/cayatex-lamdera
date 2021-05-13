@@ -125,7 +125,7 @@ update msg model =
             ( { model | showEditor = not model.showEditor }, Cmd.none )
 
         Help ->
-            ( model, sendToBackend (GetDocumentById "22") )
+            ( model, sendToBackend (GetDocumentById "yr248.qb459") )
 
         -- USER
         SignIn ->
