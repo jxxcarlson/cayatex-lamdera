@@ -986,6 +986,10 @@ blueColor =
     E.rgb 0 0 0.8
 
 
+darkBlueColor =
+    E.rgb 0 0 0.6
+
+
 yellowColor =
     E.rgb 1.0 1.0 0
 
