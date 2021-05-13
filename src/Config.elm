@@ -1,8 +1,12 @@
-module Config exposing (administrator)
+module Config exposing (administrator, helpDocumentId, startupHelpDocumentId)
 
 
 administrator =
     "jxxcarlson"
+
+
+startupHelpDocumentId =
+    "kc154.dg274"
 
 
 helpDocumentId =

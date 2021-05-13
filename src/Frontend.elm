@@ -124,8 +124,8 @@ update msg model =
         ToggleEditor ->
             ( { model | showEditor = not model.showEditor }, Cmd.none )
 
-        Help ->
-            ( model, sendToBackend (GetDocumentById "yr248.qb459") )
+        Help docId ->
+            ( model, sendToBackend (GetDocumentById docId) )
 
         -- USER
         SignIn ->

@@ -92,7 +92,7 @@ type FrontendMsg
     | NewDocument
     | AskFoDocumentById String
     | ToggleAccess
-    | Help
+    | Help String
     | CYT CaYaTeXMsg
 
 

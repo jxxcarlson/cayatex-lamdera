@@ -7,6 +7,7 @@ module View.Button exposing
     , newDocument
     , signIn
     , signOut
+    , startupHelp
     , test
     , toggleAccess
     , toggleEditor
@@ -84,7 +85,11 @@ newDocument =
 
 
 help =
-    buttonTemplate Help "Help"
+    buttonTemplate (Help Config.helpDocumentId) "Help"
+
+
+startupHelp =
+    buttonTemplate (Help Config.startupHelpDocumentId) "Help"
 
 
 
