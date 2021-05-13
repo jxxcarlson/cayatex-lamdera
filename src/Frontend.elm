@@ -54,7 +54,7 @@ init url key =
       , windowWidth = 600
       , windowHeight = 900
       , popupStatus = PopupClosed
-      , showEditor = True
+      , showEditor = False
 
       -- USER
       , currentUser = Nothing
@@ -123,6 +123,9 @@ update msg model =
 
         ToggleEditor ->
             ( { model | showEditor = not model.showEditor }, Cmd.none )
+
+        Help ->
+            ( model, sendToBackend (GetDocumentById "22") )
 
         -- USER
         SignIn ->

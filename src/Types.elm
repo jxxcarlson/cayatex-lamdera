@@ -71,9 +71,9 @@ type alias CaYaTeXMsg =
 type FrontendMsg
     = UrlClicked UrlRequest
     | UrlChanged Url
+    | NoOpFrontendMsg
       -- UI
     | GotNewWindowDimensions Int Int
-    | NoOpFrontendMsg
     | GotViewport Dom.Viewport
     | SetViewPortForElement (Result Dom.Error ( Dom.Element, Dom.Viewport ))
     | ChangePopupStatus PopupStatus
@@ -92,6 +92,7 @@ type FrontendMsg
     | NewDocument
     | AskFoDocumentById String
     | ToggleAccess
+    | Help
     | CYT CaYaTeXMsg
 
 

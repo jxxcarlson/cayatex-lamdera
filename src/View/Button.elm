@@ -82,6 +82,10 @@ newDocument =
     buttonTemplate NewDocument "New"
 
 
+help =
+    buttonTemplate Help "Help"
+
+
 
 -- USER
 
