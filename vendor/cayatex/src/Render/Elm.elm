@@ -615,7 +615,7 @@ section_ renderArgs name args body meta =
         , Render.Utility.htmlAttribute "id" tag
         ]
         -- [ text <| getLabel meta ++ " " ++ sectionName ]
-        [ E.link [] { label = el [ Font.color blueColor ] (text <| getLabel meta ++ " " ++ sectionName), url = "#tableofcontents__" } ]
+        [ E.link [] { label = el [ Font.color darkBlueColor ] (text <| getLabel meta ++ " " ++ sectionName), url = "#tableofcontents__" } ]
 
 
 center : FRender CYTMsg
