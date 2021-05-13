@@ -146,6 +146,8 @@ renderElementDict =
         , ( "highlight", highlight )
         , ( "highlightRGB", highlightRGB )
         , ( "fontRGB", fontRGB )
+        , ( "red", red )
+        , ( "blue", blue )
         , ( "code", renderCode )
         , ( "c", renderCode )
         , ( "def", defitem )
@@ -861,6 +863,16 @@ fontRGB renderArgs name args body meta =
             Render.Utility.getInt 2 args
     in
     el [ Font.color (E.rgb255 r g b), E.paddingXY 4 2 ] (renderElement renderArgs body)
+
+
+red : FRender CYTMsg
+red renderArgs name args body meta =
+    el [ Font.color (E.rgb255 195 0 0), E.paddingXY 4 2 ] (renderElement renderArgs body)
+
+
+blue : FRender CYTMsg
+blue renderArgs name args body meta =
+    el [ Font.color (E.rgb255 0 0 200), E.paddingXY 4 2 ] (renderElement renderArgs body)
 
 
 
