@@ -113,7 +113,7 @@ updateFromFrontend sessionId clientId msg model =
 
                 docsFound =
                     Document.search user searchTerm model.documents
-                        |> List.filter (\doc -> Just doc.author == username || doc.access == Public)
+                        |> List.filter (\doc -> Just doc.username == username || doc.access == Public)
             in
             ( model, sendToFrontend clientId (SendDocuments docsFound) )
 
