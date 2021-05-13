@@ -108,8 +108,12 @@ updateFromFrontend sessionId clientId msg model =
 
         GetDocumentsWithQuery user (Query searchTerm) ->
             let
+                username =
+                    Maybe.map .username user
+
                 docsFound =
                     Document.search user searchTerm model.documents
+                        |> List.filter (\doc -> Just doc.author == username || doc.access == Public)
             in
             ( model, sendToFrontend clientId (SendDocuments docsFound) )
 
