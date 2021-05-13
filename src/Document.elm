@@ -92,12 +92,12 @@ handleSearchCommand username key docs =
         else
             List.filter (\doc -> String.contains key_ doc.content) docs
 
-    else if String.left 1 key == "a" then
+    else if String.left 1 key == "u" then
         let
             key_ =
                 String.dropLeft 1 key |> String.trim
         in
-        if String.length key_ < 2 then
+        if String.length key_ < 3 then
             docs
 
         else
