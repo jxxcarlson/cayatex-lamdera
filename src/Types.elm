@@ -17,6 +17,9 @@ type alias FrontendModel =
     { key : Key
     , message : String
 
+    -- ADMIN
+    , users : List User
+
     -- USER
     , currentUser : Maybe User
     , inputUsername : String
@@ -25,6 +28,7 @@ type alias FrontendModel =
     -- UI
     , windowWidth : Int
     , windowHeight : Int
+    , popupStatus : PopupStatus
 
     -- DOCUMENT
     , currentDocument : Document
@@ -32,6 +36,15 @@ type alias FrontendModel =
     , inputSearchKey : String
     , counter : Int
     }
+
+
+type PopupWindow
+    = AdminPopup
+
+
+type PopupStatus
+    = PopupOpen PopupWindow
+    | PopupClosed
 
 
 type alias BackendModel =
@@ -62,6 +75,7 @@ type FrontendMsg
     | NoOpFrontendMsg
     | GotViewport Dom.Viewport
     | SetViewPortForElement (Result Dom.Error ( Dom.Element, Dom.Viewport ))
+    | ChangePopupStatus PopupStatus
       -- USER
     | SignIn
     | SignOut
@@ -69,6 +83,7 @@ type FrontendMsg
     | InputPassword String
       -- ADMIN
     | Test
+    | GetUsers
       -- DOC
     | InputText String
     | InputSearchKey String
@@ -82,6 +97,7 @@ type ToBackend
     = NoOpToBackend
       -- ADMIN
     | RunTest
+    | SendUsers
       -- USER
     | SignInOrSignUp String String
       -- DOCUMENT
@@ -98,6 +114,8 @@ type BackendMsg
 
 type ToFrontend
     = NoOpToFrontend
+      -- ADMIN
+    | GotUsers (List User)
       -- USER
     | SendUser User
       -- DOCUMENT

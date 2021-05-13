@@ -5,6 +5,7 @@ module View.Color exposing
     , lightGray
     , paleBlue
     , paleViolet
+    , transparentBlue
     , white
     )
 
@@ -39,6 +40,11 @@ blue =
 paleBlue : E.Color
 paleBlue =
     E.rgb255 180 180 255
+
+
+transparentBlue : E.Color
+transparentBlue =
+    E.rgba 0.5 0.5 1 0.9
 
 
 paleViolet : E.Color

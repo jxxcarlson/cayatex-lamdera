@@ -81,6 +81,9 @@ updateFromFrontend sessionId clientId msg model =
             in
             ( { model | documents = filteredDocs }, sendToFrontend clientId (SendMessage message) )
 
+        SendUsers ->
+            ( model, sendToFrontend clientId (GotUsers (Authentication.users model.authenticationDict)) )
+
         -- USER
         SignInOrSignUp username encryptedPassword ->
             case Dict.get username model.authenticationDict of

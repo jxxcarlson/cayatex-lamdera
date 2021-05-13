@@ -1,4 +1,4 @@
-module Authentication exposing (AuthenticationDict, encrypt, insert, verify)
+module Authentication exposing (AuthenticationDict, encrypt, insert, users, verify)
 
 import Crypto.HMAC exposing (sha256)
 import Dict exposing (Dict)
@@ -16,6 +16,11 @@ type alias UserData =
 
 type alias AuthenticationDict =
     Dict Username UserData
+
+
+users : AuthenticationDict -> List User
+users authDict =
+    authDict |> Dict.values |> List.map .user
 
 
 insert : User -> String -> AuthenticationDict -> AuthenticationDict

@@ -1,5 +1,7 @@
 module View.Button exposing
-    ( getDocument
+    ( adminPopup
+    , getDocument
+    , getUsers
     , linkTemplate
     , newDocument
     , signIn
@@ -8,6 +10,7 @@ module View.Button exposing
     , toggleAccess
     )
 
+import Config
 import Document exposing (Access(..))
 import Element as E exposing (Element)
 import Element.Background as Background
@@ -16,6 +19,7 @@ import Element.Input as Input
 import Types exposing (..)
 import View.Color as Color
 import View.Style
+import View.Utility
 
 
 
@@ -91,3 +95,61 @@ toggleAccess model =
                     "Shared"
     in
     buttonTemplate ToggleAccess label
+
+
+
+--nextPopupState : FrontendModel -> PopupWindow -> PopupStatus -> PopupStatus
+--nextPopupState model popupWindow_ popupStatus =
+--    case model.popupStatus of
+--        PopupClosed ->
+--            PopupOpen popupWindow_
+--
+--        PopupOpen popupWindow_ ->
+--            PopupClosed
+--
+--        PopupOpen _ ->
+--            PopupOpen popupWindow_
+--
+----nextState =
+----    case model.popupStatus of
+----        PopupClosed ->
+----            PopupOpen ChatPopup
+----
+----        PopupOpen ChatPopup ->
+----            PopupClosed
+----
+----        PopupOpen _ ->
+----            PopupOpen ChatPopup
+
+
+adminPopup : FrontendModel -> Element FrontendMsg
+adminPopup model =
+    let
+        nextState : PopupStatus
+        nextState =
+            case model.popupStatus of
+                PopupClosed ->
+                    PopupOpen AdminPopup
+
+                PopupOpen AdminPopup ->
+                    PopupClosed
+
+        --PopupOpen _ ->
+        --    PopupOpen AdminPopup
+        isVisible =
+            Maybe.map .username model.currentUser == Just Config.administrator
+    in
+    View.Utility.showIf isVisible <| buttonTemplate (ChangePopupStatus nextState) "Admin"
+
+
+getUsers =
+    buttonTemplate GetUsers "Get Users"
+
+
+
+--Widget.titledButton
+--    { label = "Toggle Chat"
+--    , title = "Toggle chat (^C)"
+--    , action = ChangePopupStatus nextState
+--    , style = Style.headerButton
+--    }

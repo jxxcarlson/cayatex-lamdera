@@ -11,6 +11,7 @@ import Types exposing (..)
 import View.Button as Button
 import View.Color as Color
 import View.Input
+import View.Popup
 import View.Style
 import View.Utility
 
@@ -41,7 +42,17 @@ mainColumn model =
 
 
 footer model =
-    E.row [ E.moveUp 10, E.spacing 12, E.paddingXY 12 8, E.height (E.px 25), E.width (E.px (2 * panelWidth_ model + 226)), Font.size 14, View.Style.bgGray 0.1, View.Style.fgGray 1.0 ]
+    E.row
+        [ E.moveUp 10
+        , E.spacing 12
+        , E.paddingXY 12 8
+        , E.height (E.px 25)
+        , E.width (E.px (2 * panelWidth_ model + 226))
+        , Font.size 14
+        , View.Style.bgGray 0.1
+        , View.Style.fgGray 1.0
+        , E.inFront (View.Popup.admin model)
+        ]
         [ E.text model.message ]
 
 
@@ -55,7 +66,10 @@ header model =
 
 
 notSignedInHeader model =
-    E.row [ E.spacing 12, Font.size 14 ]
+    E.row
+        [ E.spacing 12
+        , Font.size 14
+        ]
         [ Button.signIn
         , View.Input.usernameInput model
         , View.Input.passwordInput model
@@ -65,7 +79,14 @@ notSignedInHeader model =
 
 
 signedInHeader model user =
-    E.row [ E.spacing 12 ] [ Button.signOut user.username, Button.newDocument, Button.toggleAccess model, author model, wordCount model ]
+    E.row [ E.spacing 12 ]
+        [ Button.signOut user.username
+        , Button.newDocument
+        , Button.toggleAccess model
+        , author model
+        , wordCount model
+        , Button.adminPopup model
+        ]
 
 
 wordCount : Model -> Element FrontendMsg

@@ -47,9 +47,13 @@ init url key =
     ( { key = key
       , message = "Welcome!"
 
+      -- ADMIN
+      , users = []
+
       -- UI
       , windowWidth = 600
       , windowHeight = 900
+      , popupStatus = PopupClosed
 
       -- USER
       , currentUser = Nothing
@@ -95,6 +99,7 @@ update msg model =
         UrlChanged url ->
             ( model, Cmd.none )
 
+        -- UI
         GotNewWindowDimensions w h ->
             ( { model | windowWidth = w, windowHeight = h }, Cmd.none )
 
@@ -108,6 +113,9 @@ update msg model =
 
                 Err _ ->
                     ( model, Cmd.none )
+
+        ChangePopupStatus status ->
+            ( { model | popupStatus = status }, Cmd.none )
 
         NoOpFrontendMsg ->
             ( model, Cmd.none )
@@ -141,6 +149,9 @@ update msg model =
         -- ADMIN
         Test ->
             ( model, sendToBackend RunTest )
+
+        GetUsers ->
+            ( model, sendToBackend SendUsers )
 
         -- DOCUMENT
         InputText str ->
@@ -194,6 +205,10 @@ updateFromBackend msg model =
     case msg of
         NoOpToFrontend ->
             ( model, Cmd.none )
+
+        -- ADMIN
+        GotUsers users ->
+            ( { model | users = users }, Cmd.none )
 
         -- USER
         SendUser user ->

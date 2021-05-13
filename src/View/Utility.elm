@@ -6,6 +6,7 @@ module View.Utility exposing
     , noFocus
     , setViewPortForSelectedLine
     , setViewportForElement
+    , showIf
     )
 
 import Browser.Dom as Dom
@@ -14,6 +15,15 @@ import Html
 import Html.Attributes as HA
 import Task exposing (Task)
 import Types exposing (FrontendMsg)
+
+
+showIf : Bool -> Element msg -> Element msg
+showIf isVisible element =
+    if isVisible then
+        element
+
+    else
+        Element.none
 
 
 setViewportForElement : String -> Cmd FrontendMsg
