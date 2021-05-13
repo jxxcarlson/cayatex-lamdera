@@ -1,5 +1,6 @@
 module View.Button exposing
     ( adminPopup
+    , fetchDocuments
     , getDocument
     , getUsers
     , help
@@ -72,11 +73,20 @@ toggleEditor model =
 
 
 
--- DOCUMENT
+-- USER
 
 
 signOut username =
     buttonTemplate SignOut username
+
+
+
+-- DOCUMENT
+
+
+fetchDocuments : String -> Element FrontendMsg
+fetchDocuments query =
+    buttonTemplate (FetchDocuments (Query query)) "Fetch"
 
 
 newDocument : Element FrontendMsg

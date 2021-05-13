@@ -189,6 +189,9 @@ update msg model =
         NewDocument ->
             Frontend.Update.newDocument model
 
+        FetchDocuments searchTerm ->
+            ( model, sendToBackend (GetDocumentsWithQuery model.currentUser searchTerm) )
+
         ToggleAccess ->
             let
                 document =

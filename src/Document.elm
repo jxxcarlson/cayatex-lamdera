@@ -2,6 +2,7 @@ module Document exposing
     ( Access(..)
     , Document
     , empty
+    , handleSearchCommand
     , search
     , setAccess
     , wordCount

@@ -106,6 +106,19 @@ updateFromFrontend sessionId clientId msg model =
         GetUserDocuments username ->
             ( model, sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.username == username) model.documents)) )
 
+        GetDocumentsWithQuery user (Query searchTerm) ->
+            let
+                _ =
+                    Debug.log "ST" searchTerm
+
+                docsFound =
+                    Document.search user searchTerm model.documents
+
+                _ =
+                    Debug.log "TITLES FOUND" (List.map .title docsFound)
+            in
+            ( model, sendToFrontend clientId (SendDocuments docsFound) )
+
         RegisterNewDocument doc_ ->
             let
                 { token, seed } =

@@ -91,9 +91,14 @@ type FrontendMsg
     | InputSearchKey String
     | NewDocument
     | AskFoDocumentById String
+    | FetchDocuments SearchTerm
     | ToggleAccess
     | Help String
     | CYT CaYaTeXMsg
+
+
+type SearchTerm
+    = Query String
 
 
 type ToBackend
@@ -106,6 +111,7 @@ type ToBackend
       -- DOCUMENT
     | SaveDocument Document
     | GetUserDocuments String
+    | GetDocumentsWithQuery (Maybe User) SearchTerm
     | GetDocumentById String
     | RegisterNewDocument Document
 

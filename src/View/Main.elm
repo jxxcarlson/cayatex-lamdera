@@ -91,6 +91,7 @@ notSignedInHeader model =
 signedInHeader model user =
     E.row [ E.spacing 12 ]
         [ Button.signOut user.username
+        , Button.fetchDocuments model.inputSearchKey
         , Button.newDocument
         , Button.toggleAccess model
         , Button.toggleEditor model
