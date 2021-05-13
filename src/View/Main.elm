@@ -132,7 +132,7 @@ docList_ : Model -> Element FrontendMsg
 docList_ model =
     E.column
         [ View.Style.bgGray 0.85
-        , E.height (E.px (panelHeight_ model + 3 - searchDocPaneHeight))
+        , E.height (E.px (panelHeight_ model - searchDocPaneHeight))
         , E.spacing 4
         , E.width (E.px docListWidth)
         , E.paddingXY 8 12
