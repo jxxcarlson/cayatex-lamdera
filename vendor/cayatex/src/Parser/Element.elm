@@ -50,6 +50,7 @@ type alias Parser a =
 
 type CYTMsg
     = Mark2Msg
+    | CYDocumentLink String
 
 
 

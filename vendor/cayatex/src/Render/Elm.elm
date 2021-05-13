@@ -5,6 +5,7 @@ import Dict exposing (Dict)
 import Element as E exposing (column, el, paragraph, px, row, spacing, text)
 import Element.Background as Background
 import Element.Font as Font
+import Element.Input as Input
 import Html exposing (Html)
 import Html.Attributes as HA
 import Html.Keyed
@@ -13,7 +14,7 @@ import List.Extra
 import Maybe.Extra
 import Parser.Data as Data
 import Parser.Driver
-import Parser.Element exposing (CYTMsg, Element(..))
+import Parser.Element exposing (CYTMsg(..), Element(..))
 import Parser.Metadata exposing (Metadata)
 import Parser.TextCursor
 import Render.Types exposing (DisplayMode(..), FRender, RenderArgs, RenderElementDict)
@@ -164,6 +165,7 @@ renderElementDict =
         , ( "data", dataTable )
         , ( "item", item )
         , ( "link", link )
+        , ( "ilink", ilink )
         , ( "image", image )
         , ( "svg", svg )
         , ( "math", renderMath )
@@ -662,6 +664,40 @@ link renderArgs name args body meta =
                 { url = getText body |> Maybe.withDefault "missing url"
                 , label = el [ Font.color linkColor, Font.italic ] (text labelText)
                 }
+
+
+ilink : FRender CYTMsg
+ilink renderArgs name args body meta =
+    let
+        url =
+            getText body |> Maybe.withDefault "missing url"
+    in
+    case Render.Utility.getArg 0 args of
+        Nothing ->
+            let
+                url_ =
+                    getText body |> Maybe.withDefault "missing url"
+            in
+            linkTemplate (CYDocumentLink url) url
+
+        Just labelText ->
+            linkTemplate (CYDocumentLink url) labelText
+
+
+linkTemplate : msg -> String -> E.Element msg
+linkTemplate msg label_ =
+    E.row [ E.pointer, E.mouseDown [ Background.color (E.rgb 0.9 0.8 1.0) ] ]
+        [ Input.button linkStyle
+            { onPress = Just msg
+            , label = E.el [ E.centerY, Font.size 14, Font.color (E.rgb 0.1 0.0 1.0) ] (E.text label_)
+            }
+        ]
+
+
+linkStyle =
+    [ Font.color (E.rgb255 0 0 0)
+    , E.paddingXY 0 2
+    ]
 
 
 image : FRender CYTMsg

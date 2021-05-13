@@ -12,6 +12,7 @@ import Frontend.Update
 import Html exposing (Html)
 import Lamdera exposing (sendToBackend)
 import List.Extra
+import Parser.Element exposing (CYTMsg(..))
 import Types exposing (..)
 import Url
 import User
@@ -203,8 +204,13 @@ update msg model =
             in
             ( Frontend.Update.updateCurrentDocument document model, Frontend.Cmd.saveDocument model document )
 
-        CYT _ ->
-            ( model, Cmd.none )
+        CYT msg_ ->
+            case msg_ of
+                CYDocumentLink docId ->
+                    ( model, sendToBackend (GetDocumentById docId) )
+
+                _ ->
+                    ( model, Cmd.none )
 
 
 updateFromBackend : ToFrontend -> Model -> ( Model, Cmd FrontendMsg )
