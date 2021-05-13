@@ -6,9 +6,9 @@ import Element.Input as Input
 import Types exposing (FrontendModel, FrontendMsg(..))
 
 
-inputFieldTemplate : String -> (String -> msg) -> String -> Element msg
-inputFieldTemplate default msg text =
-    Input.text [ E.moveUp 5, Font.size 16, E.height (px 33) ]
+inputFieldTemplate : E.Length -> String -> (String -> msg) -> String -> Element msg
+inputFieldTemplate width_ default msg text =
+    Input.text [ E.moveUp 5, Font.size 16, E.height (px 33), E.width width_ ]
         { onChange = msg
         , text = text
         , label = Input.labelHidden default
@@ -16,9 +16,9 @@ inputFieldTemplate default msg text =
         }
 
 
-passwordTemplate : String -> (String -> msg) -> String -> Element msg
-passwordTemplate default msg text =
-    Input.currentPassword [ E.moveUp 5, Font.size 16, E.height (px 33) ]
+passwordTemplate : E.Length -> String -> (String -> msg) -> String -> Element msg
+passwordTemplate width_ default msg text =
+    Input.currentPassword [ E.moveUp 5, Font.size 16, E.height (px 33), E.width width_ ]
         { onChange = msg
         , text = text
         , label = Input.labelHidden default
@@ -29,12 +29,12 @@ passwordTemplate default msg text =
 
 searchDocsInput : FrontendModel -> Element FrontendMsg
 searchDocsInput model =
-    inputFieldTemplate "Search" InputSearchKey model.inputSearchKey
+    inputFieldTemplate E.fill "Search" InputSearchKey model.inputSearchKey
 
 
 usernameInput model =
-    inputFieldTemplate "Username" InputUsername model.inputUsername
+    inputFieldTemplate (E.px 120) "Username" InputUsername model.inputUsername
 
 
 passwordInput model =
-    passwordTemplate "Password" InputPassword model.inputPassword
+    passwordTemplate (E.px 120) "Password" InputPassword model.inputPassword
