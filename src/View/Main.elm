@@ -154,7 +154,7 @@ decoratedTitle doc =
 
     else
         -- Unicode: '\u{xxxx}'
-        String.fromChar '○' ++ " " ++ doc.title
+        doc.title ++ " " ++ String.fromChar '○'
 
 
 docItemView : Document -> Document -> Element FrontendMsg
@@ -165,7 +165,7 @@ docItemView currentDocument document =
                 "Untitled"
 
             else
-                decoratedTitle document
+                document.title
 
         fontColor =
             if currentDocument.id == document.id then
@@ -173,8 +173,16 @@ docItemView currentDocument document =
 
             else
                 Color.blue
+
+        style =
+            if document.access == Private then
+                Font.regular
+
+            else
+                -- Unicode: '\u{xxxx}'
+                Font.italic
     in
-    Button.linkTemplate (AskFoDocumentById document.id) fontColor title_
+    E.el [ style ] (Button.linkTemplate (AskFoDocumentById document.id) fontColor title_)
 
 
 viewEditor : Model -> Element FrontendMsg
