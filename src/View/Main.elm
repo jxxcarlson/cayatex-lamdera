@@ -97,6 +97,7 @@ signedInHeader model user =
         , Button.toggleEditor model
         , author model
         , wordCount model
+        , View.Utility.showIfIsAdmin model Button.exportToLaTeX
         , Button.adminPopup model
         , Button.help
         ]

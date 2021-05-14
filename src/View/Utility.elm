@@ -7,6 +7,7 @@ module View.Utility exposing
     , setViewPortForSelectedLine
     , setViewportForElement
     , showIf
+    , showIfIsAdmin
     )
 
 import Browser.Dom as Dom
@@ -14,7 +15,12 @@ import Element exposing (Element)
 import Html
 import Html.Attributes as HA
 import Task exposing (Task)
-import Types exposing (FrontendMsg)
+import Types exposing (FrontendModel, FrontendMsg)
+
+
+showIfIsAdmin : FrontendModel -> Element msg -> Element msg
+showIfIsAdmin model element =
+    showIf (Maybe.map .username model.currentUser == Just "jxxcarlson") element
 
 
 showIf : Bool -> Element msg -> Element msg

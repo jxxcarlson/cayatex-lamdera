@@ -1,5 +1,6 @@
 module View.Button exposing
     ( adminPopup
+    , exportToLaTeX
     , fetchDocuments
     , getDocument
     , getUsers
@@ -82,6 +83,11 @@ signOut username =
 
 
 -- DOCUMENT
+
+
+exportToLaTeX : Element FrontendMsg
+exportToLaTeX =
+    buttonTemplate ExportToLaTeX "Export to LaTeX"
 
 
 fetchDocuments : String -> Element FrontendMsg

@@ -92,6 +92,7 @@ type FrontendMsg
     | NewDocument
     | AskFoDocumentById String
     | FetchDocuments SearchTerm
+    | ExportToLaTeX
     | ToggleAccess
     | Help String
     | CYT CaYaTeXMsg

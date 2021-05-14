@@ -7,12 +7,14 @@ import Browser.Navigation as Nav
 import CaYaTeX
 import Data
 import Document exposing (Access(..))
+import File.Download as Download
 import Frontend.Cmd
 import Frontend.Update
 import Html exposing (Html)
 import Lamdera exposing (sendToBackend)
 import List.Extra
 import Parser.Element exposing (CYTMsg(..))
+import Render.LaTeX
 import Types exposing (..)
 import Url
 import User
@@ -191,6 +193,16 @@ update msg model =
 
         FetchDocuments searchTerm ->
             ( model, sendToBackend (GetDocumentsWithQuery model.currentUser searchTerm) )
+
+        ExportToLaTeX ->
+            let
+                latexText =
+                    Render.LaTeX.renderAsDocument model.currentDocument.content
+
+                fileName =
+                    model.currentDocument.title |> String.replace " " "-" |> String.toLower |> (\name -> name ++ ".tex")
+            in
+            ( model, Download.string fileName "application/x-latex" latexText )
 
         ToggleAccess ->
             let
