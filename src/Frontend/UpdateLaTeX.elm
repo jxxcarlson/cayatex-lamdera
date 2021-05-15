@@ -5,6 +5,8 @@ import Config
 import Document exposing (Document)
 import File.Download
 import Http
+import Parser.Document
+import Parser.Element
 import Process
 import Render.LaTeX
 import Task
@@ -27,18 +29,20 @@ printToPDF model =
 generatePdf : Document -> Cmd FrontendMsg
 generatePdf document =
     let
-        contentToProcess =
-            document.content
-
         contentForExport =
-            contentToProcess
+            document.content
                 |> Render.LaTeX.renderAsDocument
+
+        imageUrls =
+            document.content
+                |> Parser.Document.rl
+                |> Parser.Element.getElementTexts "image"
     in
     Http.request
         { method = "POST"
         , headers = [ Http.header "Content-Type" "application/json" ]
         , url = Config.pdfServer ++ "/pdf"
-        , body = Http.jsonBody (Codec.encodeForPDF document.id "-" contentForExport [])
+        , body = Http.jsonBody (Codec.encodeForPDF document.id "-" contentForExport imageUrls)
         , expect = Http.expectString GotPdfLink
         , timeout = Nothing
         , tracker = Nothing
