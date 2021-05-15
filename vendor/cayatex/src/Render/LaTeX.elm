@@ -49,8 +49,8 @@ latexDict =
         , simpleEntry "white"
         , simpleEntry "medgray"
         , simpleEntry "black"
-        , simpleEntry "code"
-        , aliasedSimpleEntry "c" "code"
+        , aliasedSimpleEntry "code" "violet"
+        , aliasedSimpleEntry "c" "violet"
         , simpleEntry "section"
         , aliasedSimpleEntry "section1" "section"
         , aliasedSimpleEntry "section2" "subsection"
@@ -198,7 +198,8 @@ simpleMacro_ name body =
 
 renderDefaultElement : Types.RenderArgs -> String -> List String -> Element -> String
 renderDefaultElement renderArgs name argList body =
-    "Element: " ++ name ++ " | " ++ String.join ", " argList ++ " | " ++ renderElement renderArgs body
+    --"Element: " ++ name ++ " | " ++ String.join ", " argList ++ " | " ++ renderElement renderArgs body
+    "\\violet{Not implemented: }" ++ "\\blue{" ++ name ++ "}"
 
 
 renderList : Types.RenderArgs -> List (List Element) -> String
