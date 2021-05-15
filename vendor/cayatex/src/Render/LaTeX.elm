@@ -300,7 +300,7 @@ texPrefix =
 \\newcommand{\\xlink}[2]{\\href{{https://minilatex.lamdera.app/g/#1}}{#2}}
 \\newcommand{\\red}[1]{\\textcolor{red}{#1}}
 \\newcommand{\\blue}[1]{\\textcolor{blue}{#1}}
-\\newcommand{\\blue}[1]{\\textcolor{violet}{#1}}
+\\newcommand{\\violet}[1]{\\textcolor{violet}{#1}}
 \\newcommand{\\remote}[1]{\\textcolor{red}{#1}}
 \\newcommand{\\local}[1]{\\textcolor{blue}{#1}}
 \\newcommand{\\highlight}[1]{\\hl{#1}}
