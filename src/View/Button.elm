@@ -72,7 +72,7 @@ toggleEditor model =
             else
                 "Show Editor"
     in
-    buttonTemplate [] ToggleEditor title
+    buttonTemplate [ Background.color Color.darkBlue ] ToggleEditor title
 
 
 

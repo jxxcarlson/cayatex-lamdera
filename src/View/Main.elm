@@ -38,6 +38,7 @@ mainColumn model =
                     [ docList model
                     , View.Utility.showIf model.showEditor <| viewEditor model
                     , viewRendered model
+                    , View.Utility.showIf (not model.showEditor) <| viewDummy model
                     ]
                 ]
             , footer model
@@ -97,8 +98,8 @@ signedInHeader model user =
         , Button.toggleEditor model
         , author model
         , wordCount model
-        , View.Utility.showIfIsAdmin model Button.exportToLaTeX
-        , View.Utility.showIfIsAdmin model (Button.printToPDF model)
+        , Button.exportToLaTeX
+        , Button.printToPDF model
         , Button.adminPopup model
         , Button.help
         ]
@@ -229,6 +230,20 @@ viewRendered model =
         [ View.Utility.katexCSS
         , CaYaTeX.renderString model.counter model.currentDocument.content |> E.map CYT
         ]
+
+
+viewDummy : Model -> Element FrontendMsg
+viewDummy model =
+    E.column
+        [ E.paddingEach { left = 24, right = 24, top = 12, bottom = 96 }
+        , Background.color Color.veryPaleBlue
+        , E.width (E.px (panelWidth_ model))
+        , E.height (E.px (panelHeight_ model))
+        , E.centerX
+        , Font.size 14
+        , E.alignTop
+        ]
+        []
 
 
 
