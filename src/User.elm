@@ -1,4 +1,4 @@
-module User exposing (User, defaultUser)
+module User exposing (User, defaultUser, guest)
 
 
 type alias User =
@@ -14,4 +14,12 @@ defaultUser =
     , id = "ekvdo-oaeaw"
     , realname = "James Carlson"
     , email = "jxxcarlson@gmail.com"
+    }
+
+
+guest =
+    { username = "guest"
+    , id = "ekvdo-tseug"
+    , realname = "Guest"
+    , email = "guest@nonexistent.com"
     }

@@ -126,6 +126,7 @@ type ToBackend
     | GetUserDocuments String
     | GetDocumentsWithQuery (Maybe User) SearchTerm
     | GetDocumentById String
+    | GetDocumentByIdForGuest String
     | RegisterNewDocument Document
 
 
@@ -140,6 +141,7 @@ type ToFrontend
     | GotUsers (List User)
       -- USER
     | SendUser User
+    | LoginGuest
       -- DOCUMENT
     | SendDocument Document
     | SendDocuments (List Document)

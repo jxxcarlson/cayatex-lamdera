@@ -149,7 +149,7 @@ updateFromFrontend sessionId clientId msg model =
             case List.head (List.filter (\doc -> doc.id == id) model.documents) of
                 Nothing ->
                     ( model
-                    , sendToFrontend clientId (SendMessage <| "Could not find document: " ++ id ++ ", " ++ idMessage model)
+                    , sendToFrontend clientId (SendMessage <| "Could not find document: " ++ id)
                     )
 
                 Just doc ->
@@ -159,6 +159,26 @@ updateFromFrontend sessionId clientId msg model =
                         , sendToFrontend clientId (SendMessage ("Found: " ++ doc.title))
                         ]
                     )
+
+        GetDocumentByIdForGuest id ->
+            if String.left 2 id /= "g/" then
+                ( model, Cmd.none )
+
+            else
+                case List.head (List.filter (\doc -> doc.id == String.dropLeft 2 id) model.documents) of
+                    Nothing ->
+                        ( model
+                        , sendToFrontend clientId (SendMessage <| "Could not find document: " ++ String.dropLeft 2 id)
+                        )
+
+                    Just doc ->
+                        ( model
+                        , Cmd.batch
+                            [ sendToFrontend clientId (SendDocument doc)
+                            , sendToFrontend clientId (SendMessage ("Found: " ++ doc.title))
+                            , sendToFrontend clientId LoginGuest
+                            ]
+                        )
 
 
 idMessage model =

@@ -84,9 +84,9 @@ getStartupDocument : Url -> ToBackend
 getStartupDocument url =
     let
         id =
-            url.path |> String.dropRight 1
+            url.path |> String.dropLeft 1
     in
-    GetDocumentById id
+    GetDocumentByIdForGuest id
 
 
 
@@ -281,6 +281,9 @@ updateFromBackend msg model =
         -- USER
         SendUser user ->
             ( { model | currentUser = Just user }, Cmd.none )
+
+        LoginGuest ->
+            ( { model | currentUser = Just User.guest }, Cmd.none )
 
         -- DOCUMENT
         SendDocument doc ->

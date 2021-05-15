@@ -25,7 +25,7 @@ get seed_ =
             String.left 3 (String.dropLeft 3 digitString)
 
         token =
-            List.map2 (\alpha num -> String.left 2 alpha ++ num) words [ a, b ] |> String.join "."
+            List.map2 (\alpha num -> String.left 2 alpha ++ num) words [ a, b ] |> String.join "-"
     in
     { token = token, seed = newSeed }
 
