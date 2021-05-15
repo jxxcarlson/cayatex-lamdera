@@ -10,11 +10,14 @@ import Document exposing (Access(..))
 import File.Download as Download
 import Frontend.Cmd
 import Frontend.Update
+import Frontend.UpdateLaTeX as UpdateLaTeX
 import Html exposing (Html)
 import Lamdera exposing (sendToBackend)
 import List.Extra
 import Parser.Element exposing (CYTMsg(..))
+import Process
 import Render.LaTeX
+import Task
 import Types exposing (..)
 import Url
 import User
@@ -69,6 +72,7 @@ init url key =
       , inputSearchKey = ""
       , documents = [ Data.notSignedIn ]
       , currentDocument = Data.notSignedIn
+      , printingState = PrintWaiting
       }
     , Cmd.batch [ Frontend.Cmd.setupWindow ]
     )
@@ -203,6 +207,26 @@ update msg model =
                     model.currentDocument.title |> String.replace " " "-" |> String.toLower |> (\name -> name ++ ".tex")
             in
             ( model, Download.string fileName "application/x-latex" latexText )
+
+        PrintToPDF ->
+            UpdateLaTeX.printToPDF model
+
+        GotPdfLink result ->
+            UpdateLaTeX.gotPdfLink model result
+
+        ChangePrintingState printingState ->
+            let
+                cmd =
+                    if printingState == PrintWaiting then
+                        Process.sleep 1000 |> Task.perform (always (FinallyDoCleanPrintArtefacts model.currentDocument.id))
+
+                    else
+                        Cmd.none
+            in
+            ( { model | printingState = printingState }, cmd )
+
+        FinallyDoCleanPrintArtefacts id ->
+            ( model, Cmd.none )
 
         ToggleAccess ->
             let

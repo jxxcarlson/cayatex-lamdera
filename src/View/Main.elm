@@ -98,6 +98,7 @@ signedInHeader model user =
         , author model
         , wordCount model
         , View.Utility.showIfIsAdmin model Button.exportToLaTeX
+        , View.Utility.showIfIsAdmin model (Button.printToPDF model)
         , Button.adminPopup model
         , Button.help
         ]
@@ -223,7 +224,7 @@ viewRendered model =
         , Font.size 14
         , E.alignTop
         , E.scrollbarY
-        , View.Utility.htmlAttribute "id" "__RENDERED_TEXT__"
+        , View.Utility.elementAttribute "id" "__RENDERED_TEXT__"
         ]
         [ View.Utility.katexCSS
         , CaYaTeX.renderString model.counter model.currentDocument.content |> E.map CYT

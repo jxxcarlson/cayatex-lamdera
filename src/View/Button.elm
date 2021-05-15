@@ -7,6 +7,7 @@ module View.Button exposing
     , help
     , linkTemplate
     , newDocument
+    , printToPDF
     , signIn
     , signOut
     , startupHelp
@@ -19,6 +20,7 @@ import Config
 import Document exposing (Access(..))
 import Element as E exposing (Element)
 import Element.Background as Background
+import Element.Events as Events
 import Element.Font as Font
 import Element.Input as Input
 import Types exposing (..)
@@ -31,9 +33,9 @@ import View.Utility
 -- TEMPLATES
 
 
-buttonTemplate : msg -> String -> Element msg
-buttonTemplate msg label_ =
-    E.row [ View.Style.bgGray 0.2, E.pointer, E.mouseDown [ Background.color Color.darkRed ] ]
+buttonTemplate : List (E.Attribute msg) -> msg -> String -> Element msg
+buttonTemplate attrList msg label_ =
+    E.row ([ View.Style.bgGray 0.2, E.pointer, E.mouseDown [ Background.color Color.darkRed ] ] ++ attrList)
         [ Input.button View.Style.buttonStyle
             { onPress = Just msg
             , label = E.el [ E.centerX, E.centerY, Font.size 14 ] (E.text label_)
@@ -70,7 +72,7 @@ toggleEditor model =
             else
                 "Show Editor"
     in
-    buttonTemplate ToggleEditor title
+    buttonTemplate [] ToggleEditor title
 
 
 
@@ -78,7 +80,7 @@ toggleEditor model =
 
 
 signOut username =
-    buttonTemplate SignOut username
+    buttonTemplate [] SignOut username
 
 
 
@@ -87,25 +89,46 @@ signOut username =
 
 exportToLaTeX : Element FrontendMsg
 exportToLaTeX =
-    buttonTemplate ExportToLaTeX "Export to LaTeX"
+    buttonTemplate [] ExportToLaTeX "Export to LaTeX"
+
+
+printToPDF : FrontendModel -> Element FrontendMsg
+printToPDF model =
+    case model.printingState of
+        PrintWaiting ->
+            buttonTemplate [ View.Utility.elementAttribute "title" "Generate PDF" ] PrintToPDF "PDF"
+
+        PrintProcessing ->
+            E.el [ Font.size 14, E.padding 8, E.height (E.px 30), Background.color Color.blue, Font.color Color.white ] (E.text "Please wait ...")
+
+        PrintReady ->
+            E.link
+                [ Font.size 14
+                , Background.color Color.white
+                , E.paddingXY 8 8
+                , Font.color Color.blue
+                , Events.onClick (ChangePrintingState PrintWaiting)
+                , View.Utility.elementAttribute "target" "_blank"
+                ]
+                { url = Config.pdfServer ++ "/pdf/" ++ model.currentDocument.id, label = E.el [] (E.text "Click for PDF") }
 
 
 fetchDocuments : String -> Element FrontendMsg
 fetchDocuments query =
-    buttonTemplate (FetchDocuments (Query query)) "Fetch"
+    buttonTemplate [] (FetchDocuments (Query query)) "Fetch"
 
 
 newDocument : Element FrontendMsg
 newDocument =
-    buttonTemplate NewDocument "New"
+    buttonTemplate [] NewDocument "New"
 
 
 help =
-    buttonTemplate (Help Config.helpDocumentId) "Help"
+    buttonTemplate [] (Help Config.helpDocumentId) "Help"
 
 
 startupHelp =
-    buttonTemplate (Help Config.startupHelpDocumentId) "Help"
+    buttonTemplate [] (Help Config.startupHelpDocumentId) "Help"
 
 
 
@@ -114,12 +137,12 @@ startupHelp =
 
 getDocument : Element FrontendMsg
 getDocument =
-    buttonTemplate (AskFoDocumentById "aboutCYT") "Get document"
+    buttonTemplate [] (AskFoDocumentById "aboutCYT") "Get document"
 
 
 signIn : Element FrontendMsg
 signIn =
-    buttonTemplate SignIn "Sign in | Sign up"
+    buttonTemplate [] SignIn "Sign in | Sign up"
 
 
 toggleAccess : FrontendModel -> Element FrontendMsg
@@ -136,7 +159,7 @@ toggleAccess model =
                 Shared _ ->
                     "Shared"
     in
-    buttonTemplate ToggleAccess label
+    buttonTemplate [] ToggleAccess label
 
 
 
@@ -167,7 +190,7 @@ toggleAccess model =
 
 test : Element FrontendMsg
 test =
-    buttonTemplate Test "Test"
+    buttonTemplate [] Test "Test"
 
 
 adminPopup : FrontendModel -> Element FrontendMsg
@@ -187,11 +210,11 @@ adminPopup model =
         isVisible =
             Maybe.map .username model.currentUser == Just Config.administrator
     in
-    View.Utility.showIf isVisible <| buttonTemplate (ChangePopupStatus nextState) "Admin"
+    View.Utility.showIf isVisible <| buttonTemplate [] (ChangePopupStatus nextState) "Admin"
 
 
 getUsers =
-    buttonTemplate GetUsers "Get Users"
+    buttonTemplate [] GetUsers "Get Users"
 
 
 

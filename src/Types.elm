@@ -35,6 +35,7 @@ type alias FrontendModel =
     , currentDocument : Document
     , documents : List Document
     , inputSearchKey : String
+    , printingState : PrintingState
     , counter : Int
     }
 
@@ -93,9 +94,19 @@ type FrontendMsg
     | AskFoDocumentById String
     | FetchDocuments SearchTerm
     | ExportToLaTeX
+    | PrintToPDF
+    | GotPdfLink (Result Http.Error String)
+    | ChangePrintingState PrintingState
+    | FinallyDoCleanPrintArtefacts String
     | ToggleAccess
     | Help String
     | CYT CaYaTeXMsg
+
+
+type PrintingState
+    = PrintWaiting
+    | PrintProcessing
+    | PrintReady
 
 
 type SearchTerm

@@ -1,7 +1,7 @@
 module View.Utility exposing
     ( cssNode
+    , elementAttribute
     , getElementWithViewPort
-    , htmlAttribute
     , katexCSS
     , noFocus
     , setViewPortForSelectedLine
@@ -81,6 +81,6 @@ katexCSS =
             []
 
 
-htmlAttribute : String -> String -> Element.Attribute msg
-htmlAttribute key value =
+elementAttribute : String -> String -> Element.Attribute msg
+elementAttribute key value =
     Element.htmlAttribute (HA.attribute key value)

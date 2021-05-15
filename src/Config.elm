@@ -1,4 +1,13 @@
-module Config exposing (administrator, helpDocumentId, startupHelpDocumentId)
+module Config exposing
+    ( administrator
+    , helpDocumentId
+    , pdfServer
+    , startupHelpDocumentId
+    )
+
+
+pdfServer =
+    "https://shoobox.io"
 
 
 administrator =
