@@ -20,6 +20,8 @@ notSigneInText =
 
 [blue [i Please sign in to create or work with your documents]]
 
+[violet [i To sign out, click the left-most button above: the one with your username.]]
+
 [fontRGB |100, 100, 100|  [b Note.] Export to LaTeX and create PDF features have been added.  This is a bleeding edge experimental feature which needs quite a bit of attention before it can be used for real work. Please do bear with us!]
 
 [fontRGB |100, 100, 100| As an example, this document can be successfully converted to PDF, but the image apppears on the next page.]
