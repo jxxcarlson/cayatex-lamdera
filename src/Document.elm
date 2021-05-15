@@ -1,6 +1,7 @@
 module Document exposing
     ( Access(..)
     , Document
+    , deletedMessage
     , empty
     , handleSearchCommand
     , search
@@ -45,6 +46,15 @@ empty =
     , tags = []
     , content = ""
     , access = Private
+    }
+
+
+deletedMessage : String -> Document
+deletedMessage title =
+    { empty
+        | title = "Document deleted: " ++ title
+        , content = ""
+        , id = "sys-doc-deleted"
     }
 
 

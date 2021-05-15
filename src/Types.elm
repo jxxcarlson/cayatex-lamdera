@@ -37,6 +37,7 @@ type alias FrontendModel =
     , documents : List Document
     , inputSearchKey : String
     , printingState : PrintingState
+    , documentDeleteState : DocumentDeleteState
     , counter : Int
     }
 
@@ -92,6 +93,7 @@ type FrontendMsg
     | InputText String
     | InputSearchKey String
     | NewDocument
+    | ChangeDocumentDeleteStateFrom DocumentDeleteState
     | AskFoDocumentById String
     | FetchDocuments SearchTerm
     | ExportToLaTeX
@@ -110,6 +112,11 @@ type PrintingState
     | PrintReady
 
 
+type DocumentDeleteState
+    = WaitingForDeleteAction
+    | DocumentDeletePending
+
+
 type SearchTerm
     = Query String
 
@@ -123,6 +130,7 @@ type ToBackend
     | SignInOrSignUp String String
       -- DOCUMENT
     | SaveDocument Document
+    | DeleteDocumentById String
     | GetUserDocuments String
     | GetDocumentsWithQuery (Maybe User) SearchTerm
     | GetDocumentById String

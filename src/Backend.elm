@@ -145,6 +145,9 @@ updateFromFrontend sessionId clientId msg model =
             in
             ( { model | documents = newDocuments }, sendToFrontend clientId (SendMessage ("Saved document: " ++ document.title)) )
 
+        DeleteDocumentById id ->
+            ( { model | documents = List.filter (\doc -> doc.id /= id) model.documents }, Cmd.none )
+
         GetDocumentById id ->
             case List.head (List.filter (\doc -> doc.id == id) model.documents) of
                 Nothing ->
@@ -156,7 +159,6 @@ updateFromFrontend sessionId clientId msg model =
                     ( model
                     , Cmd.batch
                         [ sendToFrontend clientId (SendDocument doc)
-                        , sendToFrontend clientId (SendMessage ("Found: " ++ doc.title))
                         ]
                     )
 
@@ -175,7 +177,7 @@ updateFromFrontend sessionId clientId msg model =
                         ( model
                         , Cmd.batch
                             [ sendToFrontend clientId (SendDocument doc)
-                            , sendToFrontend clientId (SendMessage ("Found: " ++ doc.title))
+                            , sendToFrontend clientId (SendMessage "Signed in as guest")
                             , sendToFrontend clientId LoginGuest
                             ]
                         )

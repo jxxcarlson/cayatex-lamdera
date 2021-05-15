@@ -1,5 +1,6 @@
 module Frontend.Update exposing
-    ( newDocument
+    ( deleteDocument
+    , newDocument
     , updateCurrentDocument
     , updateWithViewport
     )
@@ -49,6 +50,21 @@ newDocument model =
                         }
                 in
                 ( model, sendToBackend (RegisterNewDocument doc) )
+
+
+deleteDocument : FrontendModel -> ( FrontendModel, Cmd FrontendMsg )
+deleteDocument model =
+    if Just model.currentDocument.username /= Maybe.map .username model.currentUser then
+        ( model, Cmd.none )
+
+    else
+        ( { model
+            | currentDocument = Document.deletedMessage model.currentDocument.title
+            , documents = List.filter (\doc -> doc.id /= model.currentDocument.id) model.documents
+            , documentDeleteState = WaitingForDeleteAction
+          }
+        , sendToBackend (DeleteDocumentById model.currentDocument.id)
+        )
 
 
 updateCurrentDocument : Document -> FrontendModel -> FrontendModel

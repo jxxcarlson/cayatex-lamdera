@@ -1,5 +1,6 @@
 module View.Button exposing
     ( adminPopup
+    , deleteDocument
     , exportToLaTeX
     , fetchDocuments
     , getDocument
@@ -85,6 +86,36 @@ signOut username =
 
 
 -- DOCUMENT
+
+
+deleteDocument : FrontendModel -> Element FrontendMsg
+deleteDocument model =
+    let
+        title =
+            case model.documentDeleteState of
+                WaitingForDeleteAction ->
+                    "Delete"
+
+                DocumentDeletePending ->
+                    "Delete forever?"
+
+        bg =
+            case model.documentDeleteState of
+                WaitingForDeleteAction ->
+                    Background.color (E.rgb255 0 0 0)
+
+                DocumentDeletePending ->
+                    Background.color Color.darkRed
+
+        action =
+            case model.documentDeleteState of
+                WaitingForDeleteAction ->
+                    ChangeDocumentDeleteStateFrom WaitingForDeleteAction
+
+                DocumentDeletePending ->
+                    ChangeDocumentDeleteStateFrom DocumentDeletePending
+    in
+    buttonTemplate [ bg ] action title
 
 
 exportToLaTeX : Element FrontendMsg

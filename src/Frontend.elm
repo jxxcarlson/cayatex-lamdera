@@ -75,6 +75,7 @@ init url key =
       , documents = [ Data.notSignedIn ]
       , currentDocument = Data.notSignedIn
       , printingState = PrintWaiting
+      , documentDeleteState = WaitingForDeleteAction
       }
     , Cmd.batch [ Frontend.Cmd.setupWindow, sendToBackend (getStartupDocument url) ]
     )
@@ -210,6 +211,14 @@ update msg model =
 
         NewDocument ->
             Frontend.Update.newDocument model
+
+        ChangeDocumentDeleteStateFrom docDeleteState ->
+            case docDeleteState of
+                WaitingForDeleteAction ->
+                    ( { model | documentDeleteState = DocumentDeletePending }, Cmd.none )
+
+                DocumentDeletePending ->
+                    Frontend.Update.deleteDocument model
 
         FetchDocuments searchTerm ->
             ( model, sendToBackend (GetDocumentsWithQuery model.currentUser searchTerm) )

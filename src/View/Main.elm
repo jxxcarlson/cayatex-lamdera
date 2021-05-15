@@ -107,6 +107,7 @@ signedInHeader model user =
         [ Button.signOut user.username
         , Button.fetchDocuments model.inputSearchKey
         , Button.newDocument
+        , Button.deleteDocument model
         , Button.toggleAccess model
         , Button.toggleEditor model
         , author model
