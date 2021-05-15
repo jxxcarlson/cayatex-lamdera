@@ -15,11 +15,17 @@ notSignedIn =
 
 notSigneInText =
     """
+
 [title Welcome!]
 
-[c Please sign in to work with your documents]
+[blue [i Please sign in to create or work with your documents]]
+
+[fontRGB |100, 100, 100|  [b Note.] Export to LaTeX and create PDF features have been added.  This is a bleeding edge experimental feature which needs quite a bit of attention before it can be used for real work. Please do bear with us!]
+
+[fontRGB |100, 100, 100| As an example, this document can be successfully converted to PDF, but the image apppears on the next page.]
 
 [image |width: 400, placement: center|https://i.pinimg.com/originals/d4/07/a4/d407a45bcf3ade18468ac7ba633244b9.jpg]
+
 """
 
 
