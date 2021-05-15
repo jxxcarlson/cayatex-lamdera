@@ -15,6 +15,7 @@ import User exposing (User)
 
 type alias FrontendModel =
     { key : Key
+    , url : Url
     , message : String
 
     -- ADMIN

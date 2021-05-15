@@ -32,19 +32,23 @@ newDocument model =
             ( model, Cmd.none )
 
         Just user ->
-            let
-                emptyDoc =
-                    Document.empty
+            if user.username == "guest" then
+                ( model, Cmd.none )
 
-                doc =
-                    { emptyDoc
-                        | title = "New Document"
-                        , author = user.realname
-                        , username = user.username
-                        , content = "[title New Document]"
-                    }
-            in
-            ( model, sendToBackend (RegisterNewDocument doc) )
+            else
+                let
+                    emptyDoc =
+                        Document.empty
+
+                    doc =
+                        { emptyDoc
+                            | title = "New Document"
+                            , author = user.realname
+                            , username = user.username
+                            , content = "[title New Document]"
+                        }
+                in
+                ( model, sendToBackend (RegisterNewDocument doc) )
 
 
 updateCurrentDocument : Document -> FrontendModel -> FrontendModel

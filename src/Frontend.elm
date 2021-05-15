@@ -19,7 +19,8 @@ import Process
 import Render.LaTeX
 import Task
 import Types exposing (..)
-import Url
+import Url exposing (Url)
+import UrlManager
 import User
 import Util
 import View.Main
@@ -51,6 +52,7 @@ subscriptions model =
 init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
 init url key =
     ( { key = key
+      , url = Debug.log "INIT URL" url
       , message = "Welcome!"
 
       -- ADMIN
@@ -74,8 +76,17 @@ init url key =
       , currentDocument = Data.notSignedIn
       , printingState = PrintWaiting
       }
-    , Cmd.batch [ Frontend.Cmd.setupWindow ]
+    , Cmd.batch [ Frontend.Cmd.setupWindow, sendToBackend (getStartupDocument url) ]
     )
+
+
+getStartupDocument : Url -> ToBackend
+getStartupDocument url =
+    let
+        id =
+            url.path |> String.dropRight 1
+    in
+    GetDocumentById id
 
 
 
@@ -101,11 +112,16 @@ update msg model =
 
                 External url ->
                     ( model
-                    , Nav.load url
+                    , Nav.load (Debug.log "URL (1)" url)
                     )
 
         UrlChanged url ->
-            ( model, Cmd.none )
+            -- ( model, Cmd.none )
+            ( { model | url = Debug.log "URL (2)" url }
+            , Cmd.batch
+                [ UrlManager.handleDocId url
+                ]
+            )
 
         -- UI
         GotNewWindowDimensions w h ->
