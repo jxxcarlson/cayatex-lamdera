@@ -49,15 +49,28 @@ mainColumn model =
 footer model =
     E.row
         [ E.spacing 12
-        , E.paddingXY 12 8
+        , E.paddingXY 0 8
         , E.height (E.px 25)
         , E.width (E.px (2 * panelWidth_ model + 226))
         , Font.size 14
-        , View.Style.bgGray 0.1
-        , View.Style.fgGray 1.0
         , E.inFront (View.Popup.admin model)
         ]
+        [ Button.exportToLaTeX, Button.printToPDF model, messageRow model ]
+
+
+messageRow model =
+    E.row
+        [ E.width E.fill
+        , E.height (E.px 30)
+        , E.paddingXY 8 4
+        , View.Style.bgGray 0.1
+        , View.Style.fgGray 1.0
+        ]
         [ E.text model.message, viewId model ]
+
+
+footerButtons model =
+    E.row [ E.width (E.px (panelWidth_ model)), E.spacing 12 ] [ Button.exportToLaTeX, Button.printToPDF model ]
 
 
 viewId model =
@@ -98,8 +111,6 @@ signedInHeader model user =
         , Button.toggleEditor model
         , author model
         , wordCount model
-        , Button.exportToLaTeX
-        , Button.printToPDF model
         , Button.adminPopup model
         , Button.help
         ]
