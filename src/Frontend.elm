@@ -52,7 +52,7 @@ subscriptions model =
 init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
 init url key =
     ( { key = key
-      , url = Debug.log "INIT URL" url
+      , url = url
       , message = "Welcome!"
 
       -- ADMIN
@@ -112,12 +112,12 @@ update msg model =
 
                 External url ->
                     ( model
-                    , Nav.load (Debug.log "URL (1)" url)
+                    , Nav.load url
                     )
 
         UrlChanged url ->
             -- ( model, Cmd.none )
-            ( { model | url = Debug.log "URL (2)" url }
+            ( { model | url = url }
             , Cmd.batch
                 [ UrlManager.handleDocId url
                 ]
