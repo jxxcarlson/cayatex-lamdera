@@ -216,9 +216,10 @@ update msg model =
             case docDeleteState of
                 WaitingForDeleteAction ->
                     if Just model.currentDocument.username /= Maybe.map .username model.currentUser then
-                    (model, Cmd.none)
+                        ( model, Cmd.none )
 
-                    ( { model | documentDeleteState = DocumentDeletePending }, Cmd.none )
+                    else
+                        ( { model | documentDeleteState = DocumentDeletePending }, Cmd.none )
 
                 DocumentDeletePending ->
                     Frontend.Update.deleteDocument model
