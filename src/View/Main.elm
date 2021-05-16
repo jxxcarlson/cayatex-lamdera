@@ -51,7 +51,7 @@ footer model =
         [ E.spacing 12
         , E.paddingXY 0 8
         , E.height (E.px 25)
-        , E.width (E.px (2 * panelWidth_ model + 226))
+        , E.width (E.px (2 * panelWidth_ model + 246))
         , Font.size 14
         , E.inFront (View.Popup.admin model)
         ]
@@ -131,10 +131,6 @@ author model =
     E.el [ Font.size 14, Font.color Color.lightGray ] (E.text <| "Author: " ++ model.currentDocument.username)
 
 
-searchDocPaneHeight =
-    70
-
-
 docList : Model -> Element FrontendMsg
 docList model =
     let
@@ -172,7 +168,7 @@ docsInfo model n =
         , Font.size 16
         , E.paddingXY 12 7
         , Background.color Color.paleViolet
-        , Font.color Color.medGray
+        , Font.color Color.lightBlue
         ]
         (E.text <| "filtered/fetched = " ++ String.fromInt n ++ "/" ++ String.fromInt total)
 
@@ -290,12 +286,16 @@ viewDummy model =
 -- DIMENSIONS
 
 
+searchDocPaneHeight =
+    70
+
+
 panelWidth_ model =
     min 600 ((model.windowWidth - 100 - docListWidth) // 2)
 
 
 docListWidth =
-    200
+    220
 
 
 appHeight_ model =
