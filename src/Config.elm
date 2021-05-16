@@ -1,9 +1,14 @@
 module Config exposing
     ( administrator
+    , appUrl
     , helpDocumentId
     , pdfServer
     , startupHelpDocumentId
     )
+
+
+appUrl =
+    "https://cayatex.lamdera.app"
 
 
 pdfServer =

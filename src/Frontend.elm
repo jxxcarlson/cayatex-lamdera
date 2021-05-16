@@ -5,6 +5,7 @@ import Browser exposing (UrlRequest(..))
 import Browser.Events
 import Browser.Navigation as Nav
 import CaYaTeX
+import Config
 import Data
 import Document exposing (Access(..))
 import File.Download as Download
@@ -188,6 +189,8 @@ update msg model =
                 , documents = [ Data.notSignedIn ]
                 , message = "Signed out"
                 , inputSearchKey = ""
+                , inputUsername = ""
+                , inputPassword = ""
               }
             , Cmd.none
             )
