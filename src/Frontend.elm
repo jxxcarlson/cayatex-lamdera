@@ -187,6 +187,7 @@ update msg model =
                 , currentDocument = Data.notSignedIn
                 , documents = [ Data.notSignedIn ]
                 , message = "Signed out"
+                , inputSearchKey = ""
               }
             , Cmd.none
             )

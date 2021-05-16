@@ -132,27 +132,53 @@ author model =
 
 
 searchDocPaneHeight =
-    40
+    70
 
 
 docList : Model -> Element FrontendMsg
 docList model =
-    E.column [ E.alignTop, E.moveUp 3 ]
-        [ searchDocsPanel model
-        , docList_ model
+    let
+        filteredDocs : List (Element FrontendMsg)
+        filteredDocs =
+            List.map (docItemView model.currentDocument)
+                (List.sortBy (\doc -> doc.title) (Document.search model.currentUser model.inputSearchKey model.documents))
+
+        n =
+            List.length filteredDocs
+    in
+    E.column [ E.alignTop, E.moveUp 0 ]
+        [ searchDocsPanel model n
+        , docList_ model filteredDocs
         ]
 
 
-searchDocsPanel model =
-    E.row
+searchDocsPanel model n =
+    E.column
         [ E.height (E.px searchDocPaneHeight)
         , E.width (E.px docListWidth)
+        , E.spacing 3
         ]
-        [ View.Input.searchDocsInput model ]
+        [ View.Input.searchDocsInput model, docsInfo model n ]
 
 
-docList_ : Model -> Element FrontendMsg
-docList_ model =
+docsInfo model n =
+    let
+        total =
+            List.length model.documents
+    in
+    E.el
+        [ E.height (E.px 30)
+        , E.width (E.px docListWidth)
+        , Font.size 16
+        , E.paddingXY 12 7
+        , Background.color Color.paleViolet
+        , Font.color Color.medGray
+        ]
+        (E.text <| "Docs: " ++ String.fromInt n ++ "/" ++ String.fromInt total)
+
+
+docList_ : Model -> List (Element FrontendMsg) -> Element FrontendMsg
+docList_ model filteredDocs =
     E.column
         [ View.Style.bgGray 0.85
         , E.height (E.px (panelHeight_ model - searchDocPaneHeight))
@@ -162,9 +188,7 @@ docList_ model =
         , Background.color Color.paleViolet
         , E.scrollbarY
         ]
-        (List.map (docItemView model.currentDocument)
-            (List.sortBy (\doc -> doc.title) (Document.search model.currentUser model.inputSearchKey model.documents))
-        )
+        filteredDocs
 
 
 decoratedTitle : Document -> String
