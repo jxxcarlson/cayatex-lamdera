@@ -71,7 +71,7 @@ init url key =
 
       -- DOCUMENT
       , counter = 0
-      , inputSearchKey = ":me"
+      , inputSearchKey = initialSearchKey url
       , documents = [ Data.notSignedIn ]
       , currentDocument = Data.notSignedIn
       , printingState = PrintWaiting
@@ -79,6 +79,20 @@ init url key =
       }
     , Cmd.batch [ Frontend.Cmd.setupWindow, sendToBackend (getStartupDocument url) ]
     )
+
+
+initialSearchKey : Url -> String
+initialSearchKey url =
+    if urlIsForGuest url then
+        ""
+
+    else
+        ":me"
+
+
+urlIsForGuest : Url -> Bool
+urlIsForGuest url =
+    String.left 2 url.path == "/g"
 
 
 getStartupDocument : Url -> ToBackend
