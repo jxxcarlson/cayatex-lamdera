@@ -61,7 +61,7 @@ deletedMessage title =
 
 makeHomePage : String -> Document
 makeHomePage username =
-    { empty | title = username ++ ": home", id = username, content = "[title " ++ username ++ ": home]", access = Public }
+    { empty | title = username ++ ": home", id = username, username = username, content = "[title " ++ username ++ ": home]", access = Public }
 
 
 setAccess access document =

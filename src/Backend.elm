@@ -75,10 +75,13 @@ updateFromFrontend sessionId clientId msg model =
                 newDocuments =
                     List.map Document.makeHomePage usernames
 
+                oldDocuments =
+                    List.filter (\doc -> doc.username /= "noname123") model.documents
+
                 n =
                     String.fromInt (List.length newDocuments)
             in
-            ( { model | documents = newDocuments ++ model.documents }, sendToFrontend clientId (SendMessage <| "Added home pages: " ++ n) )
+            ( { model | documents = newDocuments ++ oldDocuments }, sendToFrontend clientId (SendMessage <| "Added home pages: " ++ n) )
 
         SendUsers ->
             ( model, sendToFrontend clientId (GotUsers (Authentication.users model.authenticationDict)) )
@@ -128,7 +131,7 @@ updateFromFrontend sessionId clientId msg model =
                     doc :: model.documents
 
                 message =
-                    "Registered document: " ++ doc.title ++ "(" ++ String.fromInt (List.length newDocuments) ++ ")"
+                    "Registered document: " ++ doc.title ++ "(" ++ doc.username ++ ")"
             in
             ( { model | randomSeed = seed, documents = newDocuments }
             , Cmd.batch

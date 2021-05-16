@@ -71,7 +71,7 @@ init url key =
 
       -- DOCUMENT
       , counter = 0
-      , inputSearchKey = ""
+      , inputSearchKey = ":me"
       , documents = [ Data.notSignedIn ]
       , currentDocument = Data.notSignedIn
       , printingState = PrintWaiting
