@@ -120,5 +120,16 @@ handleSearchCommand username key docs =
         else
             List.filter (\doc -> String.contains (String.toLower key_) (String.toLower doc.username)) docs
 
+    else if String.left 1 key == "h" then
+        let
+            key_ =
+                String.dropLeft 1 key |> String.trim
+        in
+        if String.length key_ < 2 then
+            docs
+
+        else
+            List.filter (\doc -> doc.id == key_) docs
+
     else
         docs

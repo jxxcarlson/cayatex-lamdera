@@ -307,7 +307,7 @@ updateFromBackend msg model =
 
         -- USER
         SendUser user ->
-            ( { model | currentUser = Just user }, Cmd.none )
+            ( { model | currentUser = Just user, inputSearchKey = ":me" }, Cmd.none )
 
         LoginGuest ->
             ( { model | currentUser = Just User.guest }, Cmd.none )
