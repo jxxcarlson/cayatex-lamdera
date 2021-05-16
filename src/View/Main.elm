@@ -174,7 +174,7 @@ docsInfo model n =
         , Background.color Color.paleViolet
         , Font.color Color.medGray
         ]
-        (E.text <| "Docs: " ++ String.fromInt n ++ "/" ++ String.fromInt total)
+        (E.text <| "filtered/fetched = " ++ String.fromInt n ++ "/" ++ String.fromInt total)
 
 
 docList_ : Model -> List (Element FrontendMsg) -> Element FrontendMsg
