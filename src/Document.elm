@@ -4,6 +4,7 @@ module Document exposing
     , deletedMessage
     , empty
     , handleSearchCommand
+    , makeHomePage
     , search
     , setAccess
     , wordCount
@@ -56,6 +57,11 @@ deletedMessage title =
         , content = ""
         , id = "sys-doc-deleted"
     }
+
+
+makeHomePage : String -> Document
+makeHomePage username =
+    { empty | title = username ++ ": home", id = username, content = "[title " ++ username ++ ": home]", access = Public }
 
 
 setAccess access document =

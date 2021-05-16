@@ -60,14 +60,17 @@ setupUser model clientId username encryptedPassword =
         user =
             { username = username, id = tokenData.token, realname = "Undefined", email = "Undefined" }
 
+        homePage =
+            Document.makeHomePage username
+
         -- TO BE DEFINED LATER BY USER: realname, email
         newAuthDict =
             Authentication.insert user encryptedPassword model.authenticationDict
     in
-    ( { model | randomSeed = tokenData.seed, authenticationDict = newAuthDict }
+    ( { model | randomSeed = tokenData.seed, authenticationDict = newAuthDict, documents = homePage :: model.documents }
     , Cmd.batch
         [ sendToFrontend clientId (SendMessage "Success! You have set up your CaYaTeX account")
         , sendToFrontend clientId (SendUser user)
-        , sendToFrontend clientId (SendDocuments (List.filter (\doc -> doc.access == Public) model.documents))
+        , sendToFrontend clientId (SendDocuments (homePage :: List.filter (\doc -> doc.access == Public) model.documents))
         ]
     )

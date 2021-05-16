@@ -110,6 +110,7 @@ signedInHeader model user =
         , Button.deleteDocument model
         , Button.toggleAccess model
         , Button.toggleEditor model
+        , View.Utility.showIfIsAdmin model Button.runTask
         , author model
         , wordCount model
         , Button.adminPopup model

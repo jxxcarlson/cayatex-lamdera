@@ -9,10 +9,10 @@ module View.Button exposing
     , linkTemplate
     , newDocument
     , printToPDF
+    , runTask
     , signIn
     , signOut
     , startupHelp
-    , test
     , toggleAccess
     , toggleEditor
     )
@@ -219,9 +219,9 @@ toggleAccess model =
 -- ADMIN
 
 
-test : Element FrontendMsg
-test =
-    buttonTemplate [] Test "Test"
+runTask : Element FrontendMsg
+runTask =
+    buttonTemplate [] AdminRunTask "Run Task"
 
 
 adminPopup : FrontendModel -> Element FrontendMsg

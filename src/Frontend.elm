@@ -178,8 +178,8 @@ update msg model =
             )
 
         -- ADMIN
-        Test ->
-            ( model, sendToBackend RunTest )
+        AdminRunTask ->
+            ( model, sendToBackend RunTask )
 
         GetUsers ->
             ( model, sendToBackend SendUsers )

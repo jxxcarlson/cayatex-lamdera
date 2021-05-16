@@ -67,19 +67,18 @@ updateFromFrontend sessionId clientId msg model =
             ( model, Cmd.none )
 
         -- ADMIN
-        RunTest ->
+        RunTask ->
             let
-                ids =
-                    List.map (\doc -> (doc.id |> String.left 5) ++ " (" ++ (doc.username |> String.left 3) ++ ": " ++ (doc.title |> String.left 5) ++ ")")
-                        (List.filter (\doc -> doc.username == "jxxcarlson") model.documents)
+                usernames =
+                    Dict.keys model.authenticationDict
 
-                message =
-                    "ids (" ++ String.fromInt (List.length ids) ++ "): " ++ String.join ", " ids
+                newDocuments =
+                    List.map Document.makeHomePage usernames
 
-                filteredDocs =
-                    List.filter (\doc -> doc.id /= "1" || String.length doc.title > 0) model.documents
+                n =
+                    String.fromInt (List.length newDocuments)
             in
-            ( { model | documents = filteredDocs }, sendToFrontend clientId (SendMessage message) )
+            ( { model | documents = newDocuments ++ model.documents }, sendToFrontend clientId (SendMessage <| "Added home pages: " ++ n) )
 
         SendUsers ->
             ( model, sendToFrontend clientId (GotUsers (Authentication.users model.authenticationDict)) )

@@ -87,7 +87,7 @@ type FrontendMsg
     | InputUsername String
     | InputPassword String
       -- ADMIN
-    | Test
+    | AdminRunTask
     | GetUsers
       -- DOC
     | InputText String
@@ -124,7 +124,7 @@ type SearchTerm
 type ToBackend
     = NoOpToBackend
       -- ADMIN
-    | RunTest
+    | RunTask
     | SendUsers
       -- USER
     | SignInOrSignUp String String
