@@ -165,7 +165,7 @@ updateFromFrontend sessionId clientId msg model =
                     )
 
         GetDocumentByIdForGuest id ->
-            if String.left 2 (Debug.log "ID" id) /= "g/" then
+            if String.left 2 id /= "g/" then
                 ( model, Cmd.none )
 
             else
