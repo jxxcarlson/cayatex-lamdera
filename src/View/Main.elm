@@ -55,7 +55,12 @@ footer model =
         , Font.size 14
         , E.inFront (View.Popup.admin model)
         ]
-        [ Button.exportToLaTeX, Button.printToPDF model, messageRow model ]
+        [ Button.adminPopup model
+        , View.Utility.showIfIsAdmin model Button.runTask
+        , Button.exportToLaTeX
+        , Button.printToPDF model
+        , messageRow model
+        ]
 
 
 messageRow model =
@@ -110,10 +115,8 @@ signedInHeader model user =
         , Button.deleteDocument model
         , Button.toggleAccess model
         , Button.toggleEditor model
-        , View.Utility.showIfIsAdmin model Button.runTask
         , author model
         , wordCount model
-        , Button.adminPopup model
         , Button.help
         ]
 

@@ -81,7 +81,8 @@ updateFromFrontend sessionId clientId msg model =
                 n =
                     String.fromInt (List.length newDocuments)
             in
-            ( { model | documents = newDocuments ++ oldDocuments }, sendToFrontend clientId (SendMessage <| "Added home pages: " ++ n) )
+            -- ( { model | documents = newDocuments ++ oldDocuments }, sendToFrontend clientId (SendMessage <| "Added home pages: " ++ n) )
+            ( model, sendToFrontend clientId (SendMessage <| "No task to run") )
 
         SendUsers ->
             ( model, sendToFrontend clientId (GotUsers (Authentication.users model.authenticationDict)) )

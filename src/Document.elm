@@ -125,11 +125,11 @@ handleSearchCommand username key docs =
             key_ =
                 String.dropLeft 1 key |> String.trim
         in
-        if String.length key_ < 2 then
-            docs
+        if String.length key_ < 1 then
+            List.filter (\doc -> doc.id == doc.username) docs
 
         else
-            List.filter (\doc -> doc.id == key_) docs
+            List.filter (\doc -> String.contains key_ doc.id) docs
 
     else
         docs
