@@ -69,20 +69,10 @@ updateFromFrontend sessionId clientId msg model =
         -- ADMIN
         RunTask ->
             let
-                usernames =
-                    Dict.keys model.authenticationDict
-
-                newDocuments =
-                    List.map Document.makeHomePage usernames
-
-                oldDocuments =
-                    List.filter (\doc -> doc.username /= "noname123") model.documents
-
-                n =
-                    String.fromInt (List.length newDocuments)
+                documents =
+                    List.map (\doc -> { doc | id = String.replace "." "-" doc.id }) model.documents
             in
-            -- ( { model | documents = newDocuments ++ oldDocuments }, sendToFrontend clientId (SendMessage <| "Added home pages: " ++ n) )
-            ( model, sendToFrontend clientId (SendMessage <| "No task to run") )
+            ( { model | documents = documents }, sendToFrontend clientId (SendMessage <| "doc ids remapped") )
 
         SendUsers ->
             ( model, sendToFrontend clientId (GotUsers (Authentication.users model.authenticationDict)) )
