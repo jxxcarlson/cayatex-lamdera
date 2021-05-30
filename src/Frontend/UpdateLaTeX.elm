@@ -6,6 +6,7 @@ import Document exposing (Document)
 import File.Download
 import Http
 import Parser.Document
+import Parser.Lines
 import Parser.Element
 import Process
 import Render.LaTeX
@@ -35,7 +36,7 @@ generatePdf document =
 
         imageUrls =
             document.content
-                |> Parser.Document.rl
+                |> Parser.Lines.rl
                 |> Parser.Element.getElementTexts "image"
     in
     Http.request

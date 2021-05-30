@@ -1,4 +1,4 @@
-module Parser.Driver exposing (..)
+module Parser.Driver exposing (parseLoop)
 
 import List.Extra
 import Parser.Advanced as PA
@@ -12,6 +12,8 @@ import Parser.RecoveryData as RecoveryData exposing (RecoveryData)
 import Parser.TextCursor as TextCursor exposing (TextCursor)
 
 
+{-| The value of Loop.Packet that we need here
+-}
 packet : Loop.Packet Element
 packet =
     { parser = Element.parser
@@ -132,7 +134,7 @@ handleRightBracketError : TextCursor Element -> Maybe (PA.DeadEnd Context Proble
 handleRightBracketError tc_ mFirstError errorColumn mRecoveryData =
     let
         --_ =
-        --    Debug.log "Parser.Document.FLUSH, RightBracketError"
+        --    Debug.log "Parser.Lines.FLUSH, RightBracketError"
         textLines =
             String.lines tc_.text
 

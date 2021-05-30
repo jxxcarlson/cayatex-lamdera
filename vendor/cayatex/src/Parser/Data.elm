@@ -11,9 +11,9 @@ import Render.Utility
 import Vector exposing (Vector)
 
 
-{-| SourceText is a composite strucure holding information on section and other
+{-| SourceText is a composite structure holding information on section and other
 counters, cross-references, table of contents, etc. It is compute
-by Parser.Document.runLoop and is used by Render.Elm.renderElement,
+by Parser.Lines.runLoop and is used by Render.Elm.renderElement,
 where it appears as a field in RenderArgs
 -}
 type alias Data =
