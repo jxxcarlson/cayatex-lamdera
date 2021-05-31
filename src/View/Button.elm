@@ -1,6 +1,7 @@
 module View.Button exposing
     ( adminPopup
     , deleteDocument
+    , export
     , exportToLaTeX
     , fetchDocuments
     , getDocument
