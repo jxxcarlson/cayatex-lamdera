@@ -12,7 +12,7 @@ appUrl =
 
 
 pdfServer =
-    "https://shoobox.io"
+    "https://pdfserv.app"
 
 
 administrator =
