@@ -255,6 +255,13 @@ update msg model =
             in
             ( model, Download.string fileName "application/x-latex" latexText )
 
+        Export ->
+            let
+                fileName =
+                    model.currentDocument.title |> String.replace " " "-" |> String.toLower |> (\name -> name ++ ".caya")
+            in
+            ( model, Download.string fileName "text/plain" model.currentDocument.content )
+
         PrintToPDF ->
             UpdateLaTeX.printToPDF model
 

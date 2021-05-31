@@ -57,6 +57,7 @@ footer model =
         ]
         [ Button.adminPopup model
         , View.Utility.showIfIsAdmin model Button.runTask
+        , Button.export
         , Button.exportToLaTeX
         , Button.printToPDF model
         , messageRow model

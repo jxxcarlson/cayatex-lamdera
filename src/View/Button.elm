@@ -123,6 +123,11 @@ exportToLaTeX =
     buttonTemplate [] ExportToLaTeX "Export to LaTeX"
 
 
+export : Element FrontendMsg
+export =
+    buttonTemplate [] Export "Export"
+
+
 printToPDF : FrontendModel -> Element FrontendMsg
 printToPDF model =
     case model.printingState of

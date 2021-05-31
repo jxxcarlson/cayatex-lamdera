@@ -97,6 +97,7 @@ type FrontendMsg
     | AskFoDocumentById String
     | FetchDocuments SearchTerm
     | ExportToLaTeX
+    | Export
     | PrintToPDF
     | GotPdfLink (Result Http.Error String)
     | ChangePrintingState PrintingState
