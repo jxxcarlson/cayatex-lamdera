@@ -753,7 +753,7 @@ image renderArgs name args body meta =
                     E.none
 
                 Just c ->
-                    E.row [ placement ] [ el [] (text c) ]
+                    E.row [ placement, E.width E.fill ] [ el [ E.width E.fill ] (text c) ]
 
         width =
             case Dict.get "width" dict of
