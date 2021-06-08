@@ -1,20 +1,22 @@
 module Parser.Element exposing
     ( CYTMsg(..)
     , Element(..)
-    , filter
-    , getBody
-    , getElementTexts
-    , getText
-    , getTitle
-    , isNamed
     , listParser
-    , makeList
     , parse
     , parseList
     , parser
-    , rlp
-    , setLabel
+    , r0
+    , r1
+    , r1b
+    , r2
+    , r3
+    , rawString
     )
+
+{-
+
+
+-}
 
 import Maybe.Extra
 import Parser.Advanced as Parser exposing ((|.), (|=))
@@ -25,33 +27,18 @@ import Parser.Tool as T
 import Parser.XString as XString
 
 
-rlp str =
-    Parser.run (listParser 0 0) "[section A]\n\n[section B]\n\n[section C]"
-
-
 type Element
     = Text String (Maybe Metadata)
     | Element String (List String) Element (Maybe Metadata)
     | LX (List Element) (Maybe Metadata)
 
 
-makeList : List Element -> Element
-makeList list =
-    LX list Nothing
-
-
-setLabel : String -> Element -> Element
-setLabel label element_ =
-    case element_ of
-        Element name args body (Just metadata) ->
-            Element name args body (Just { metadata | label = label })
-
-        _ ->
-            element_
-
-
 type alias Parser a =
     Parser.Parser Context Problem a
+
+
+type alias ParseError =
+    Parser.DeadEnd Context Problem
 
 
 type CYTMsg
@@ -63,79 +50,32 @@ type CYTMsg
 -- PARSER
 
 
-getTitle : String -> String
-getTitle str =
-    case str |> String.trim |> parse 0 0 of
-        Err _ ->
-            "Untitled"
-
-        Ok elt ->
-            case elt of
-                Element "title" [] (LX [ Text str_ _ ] _) _ ->
-                    str_
-
-                _ ->
-                    "Untitled"
+r0 =
+    "[c raw#abc#]"
 
 
-parse : Int -> Int -> String -> Result (List (Parser.DeadEnd Context Problem)) Element
+r1 =
+    "[c raw#[abc]#]"
+
+
+r1b =
+    "[c raw#[abc#]"
+
+
+r2 =
+    "[c raw#[3]#]"
+
+
+r3 =
+    "[c raw#[3#]"
+
+
+parse : Int -> Int -> String -> Result (List ParseError) Element
 parse generation lineNumber str =
-    Parser.run (parser 1 2) str
+    Parser.run (parser generation lineNumber) str
 
 
-getElementTexts : String -> List (List Element) -> List String
-getElementTexts elementName_ parsed =
-    parsed
-        |> filter (isNamed elementName_)
-        |> List.map getBody
-        |> List.map (Maybe.andThen getText)
-        |> Maybe.Extra.values
-
-
-filter : (Element -> Bool) -> List (List Element) -> List Element
-filter predicate list =
-    List.map (filter1 predicate) list |> List.concat
-
-
-filter1 : (Element -> Bool) -> List Element -> List Element
-filter1 predicate list =
-    List.filter predicate list
-
-
-isNamed : String -> Element -> Bool
-isNamed name element =
-    case element of
-        Element name_ _ _ _ ->
-            name == name_
-
-        _ ->
-            False
-
-
-getBody : Element -> Maybe Element
-getBody element =
-    case element of
-        Element _ _ body _ ->
-            Just body
-
-        Text _ _ ->
-            Nothing
-
-        LX _ _ ->
-            Nothing
-
-
-getText : Element -> Maybe String
-getText element =
-    case element of
-        LX [ Text str _ ] _ ->
-            Just str
-
-        _ ->
-            Nothing
-
-
-parseList : Int -> Int -> String -> Result (List (Parser.DeadEnd Context Problem)) (List Element)
+parseList : Int -> Int -> String -> Result (List ParseError) (List Element)
 parseList generation lineNumber str =
     Parser.run (listParser generation lineNumber) str
 
@@ -266,10 +206,6 @@ rawText_ stopChars =
         |= Parser.getSource
 
 
-
--- |> Debug.log "D"
-
-
 comma_ =
     Parser.symbol (Parser.Token "," ExpectingComma)
 
@@ -296,10 +232,6 @@ leftBracket =
 
 rightBracket =
     Parser.symbol (Parser.Token "]" ExpectingRightBracket)
-
-
-
--- HELPERS
 
 
 {-|

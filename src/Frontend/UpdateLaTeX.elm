@@ -3,11 +3,9 @@ module Frontend.UpdateLaTeX exposing (..)
 import Codec
 import Config
 import Document exposing (Document)
-import File.Download
 import Http
-import Parser.Document
-import Parser.Lines
-import Parser.Element
+import Parser.Function
+import Parser.RunLoopFunctions
 import Process
 import Render.LaTeX
 import Task
@@ -36,8 +34,8 @@ generatePdf document =
 
         imageUrls =
             document.content
-                |> Parser.Lines.rl
-                |> Parser.Element.getElementTexts "image"
+                |> Parser.RunLoopFunctions.rl
+                |> Parser.Function.getElementTexts "image"
     in
     Http.request
         { method = "POST"

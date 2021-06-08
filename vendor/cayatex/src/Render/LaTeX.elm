@@ -6,7 +6,9 @@ import List.Extra
 import Maybe.Extra
 import Parser.Data
 import Parser.Element as Element exposing (Element(..))
+import Parser.Function
 import Parser.Lines
+import Parser.RunLoopFunctions
 import Render.Elm
 import Render.Types as Types
 import Spreadsheet
@@ -125,7 +127,7 @@ argListsFromBody element =
 stringListFromElement : Element -> List String
 stringListFromElement element =
     element
-        |> Element.getText
+        |> Parser.Function.getText
         |> Maybe.map CYUtility.commaSeparatedToList
         |> Maybe.withDefault []
 
