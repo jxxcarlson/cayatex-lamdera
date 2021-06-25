@@ -18,13 +18,13 @@ heading : Problem -> String
 heading problem =
     case problem of
         ExpectingRightBracket ->
-            "Error. Expecting right bracket after"
+            "Missing right bracket?"
 
         ExpectingLeftBracket ->
-            "Error. Expecting left bracket"
+            "Missing left bracket?"
 
         ExpectingPipe ->
-            "Error. Expecting pipe symbol"
+            "Missing pipe symbol?"
 
         _ ->
             "Error in"
