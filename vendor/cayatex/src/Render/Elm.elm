@@ -15,6 +15,7 @@ import Maybe.Extra
 import Parser.Data as Data
 import Parser.Driver
 import Parser.Element exposing (CYTMsg(..), Element(..))
+import Parser.Error as Error
 import Parser.Metadata exposing (Metadata)
 import Parser.TextCursor
 import Render.Types exposing (DisplayMode(..), FRender, RenderArgs, RenderElementDict)
@@ -61,20 +62,17 @@ renderElement renderArgs element =
             -- TODO
             el [] (text str)
 
-        --case paragraphs str of
-        --    [] ->
-        --        E.none
-        --
-        --    [ str_ ] ->
-        --        el [] (text str_)
-        --
-        --    list_ ->
-        --        column [ spacing 12 ] (List.map text list_)
         Element name args body meta ->
             renderWithDictionary renderArgs name args body meta
 
         LX list_ _ ->
             paragraph format (List.map (renderElement renderArgs) list_)
+
+        Problem p e _ ->
+            E.paragraph format
+                [ E.el [ Font.color (E.rgb255 200 0 0) ] (E.text (Error.heading p))
+                , E.el [ E.paddingXY 8 0, Font.color (E.rgb255 0 0 200), Font.bold ] (E.text e)
+                ]
 
 
 paragraphs : String -> List String
