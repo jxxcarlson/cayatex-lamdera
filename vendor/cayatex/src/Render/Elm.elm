@@ -15,6 +15,7 @@ import Maybe.Extra
 import Parser.Data as Data
 import Parser.Driver
 import Parser.Element exposing (CYTMsg(..), Element(..))
+import Parser.Error as Error
 import Parser.Metadata exposing (Metadata)
 import Parser.TextCursor
 import Render.Types exposing (DisplayMode(..), FRender, RenderArgs, RenderElementDict)
@@ -35,7 +36,7 @@ textWidth =
 
 
 format =
-    []
+    [ Font.size 14 ]
 
 
 
@@ -61,20 +62,17 @@ renderElement renderArgs element =
             -- TODO
             el [] (text str)
 
-        --case paragraphs str of
-        --    [] ->
-        --        E.none
-        --
-        --    [ str_ ] ->
-        --        el [] (text str_)
-        --
-        --    list_ ->
-        --        column [ spacing 12 ] (List.map text list_)
         Element name args body meta ->
             renderWithDictionary renderArgs name args body meta
 
         LX list_ _ ->
             paragraph format (List.map (renderElement renderArgs) list_)
+
+        Problem p e _ ->
+            E.paragraph format
+                [ E.el [ Font.color (E.rgb255 0 0 230) ] (E.text (Error.heading p))
+                , E.el [ E.paddingXY 8 0, Font.color (E.rgb255 180 0 0), Font.underline ] (E.text e)
+                ]
 
 
 paragraphs : String -> List String
@@ -328,13 +326,15 @@ getRows_ body =
 spreadsheet : FRender CYTMsg
 spreadsheet renderArgs name args_ body meta =
     let
+        -- spreadsheet1 : List (List String)
         spreadsheet1 =
-            getRows_ body |> List.Extra.transpose
+            Render.Utility.getCSV ";" body
+                |> Spreadsheet.readFromList
+                |> Spreadsheet.eval
 
         spreadsheet2 : List (List String)
         spreadsheet2 =
-            Spreadsheet.evalText spreadsheet1
-                |> List.Extra.transpose
+            Spreadsheet.printAsList spreadsheet1
 
         renderItem : String -> E.Element CYTMsg
         renderItem str =
@@ -425,7 +425,7 @@ dataTable renderArgs name args_ body meta =
     let
         rawData : List (List String)
         rawData =
-            Render.Utility.getCSV body
+            Render.Utility.getCSV "," body
                 |> List.filter (\row -> row /= [ "" ])
 
         widths : List Float
@@ -565,7 +565,7 @@ codeblock renderArgs _ _ body meta =
             [ Font.typeface "Inconsolata"
             , Font.monospace
             ]
-        , Font.size 12
+        , Font.size 14
         , Font.color codeColor
         , Render.Utility.htmlAttribute "white-space" "pre"
 
@@ -694,11 +694,11 @@ paddingAbove k =
 
 
 titleFontSize =
-    36
+    30
 
 
 sectionFontSize =
-    30
+    24
 
 
 link : FRender CYTMsg

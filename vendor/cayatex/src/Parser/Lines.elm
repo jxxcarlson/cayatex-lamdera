@@ -94,7 +94,7 @@ initWithData generation data strList =
     , blockStatus = Start
     , blockContents = []
     , blockLevel = 0
-    , blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0 }
+    , blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0, expectingRaw = NotExpecting }
     , lastTextCursor = Nothing
     , output = []
     , data = data
@@ -151,7 +151,7 @@ updateBlockLevels line { blanksSeen, bracketLevel, textLevel } =
             else
                 textLevel
     in
-    { blanksSeen = blanksSeen_, bracketLevel = bracketLevel_, textLevel = textLevel_ }
+    { blanksSeen = blanksSeen_, bracketLevel = bracketLevel_, textLevel = textLevel_, expectingRaw = NotExpecting }
 
 
 innerNextState : String -> State -> State
@@ -163,8 +163,25 @@ innerNextState currentLine state_ =
         oldBlockLevels =
             state_.blockLevels
 
+        expectingRaw =
+            if state_.blockLevels.expectingRaw == NotExpecting && String.contains "raw###" currentLine then
+                ExpectingRaw "###"
+
+            else if state_.blockLevels.expectingRaw == ExpectingRaw "###" && String.contains "###" currentLine then
+                NotExpecting
+
+            else
+                NotExpecting
+
+        newBlockLevels_ =
+            if state_.blockLevels.expectingRaw == NotExpecting then
+                updateBlockLevels currentLine oldBlockLevels
+
+            else
+                oldBlockLevels
+
         newBlockLevels =
-            updateBlockLevels currentLine oldBlockLevels
+            { newBlockLevels_ | expectingRaw = expectingRaw }
     in
     case ( blockFinished oldBlockLevels, blockFinished newBlockLevels ) of
         ( True, True ) ->
@@ -274,13 +291,17 @@ flush state =
         case Maybe.map .status errorStatus of
             Just TextCursor.RightBracketError ->
                 let
-                    --_ =
-                    --    Debug.log "Parser.Lines.FLUSH, RightBracketError"
                     correctedText =
-                        Maybe.map .correctedText errorStatus |> Maybe.withDefault [ "Could not correct the error" ] |> List.reverse
+                        Maybe.map .correctedText errorStatus
+                            |> Maybe.withDefault [ "Could not correct the error" ]
+                            |> List.reverse
 
                     correctedState =
-                        { state | input = correctedText, blockContents = [], blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0 } }
+                        { state
+                            | input = correctedText
+                            , blockContents = []
+                            , blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0, expectingRaw = NotExpecting }
+                        }
                 in
                 Loop correctedState
 
@@ -335,14 +356,12 @@ handleError state =
                         in
                         Loop
                             { state
-                                | blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0 }
+                                | blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0, expectingRaw = NotExpecting }
                                 , lastTextCursor = Maybe.map resetError state.lastTextCursor
                             }
 
                     TextCursor.RightBracketError ->
                         let
-                            --_ =
-                            --    Debug.log "Parser.Lines.handleError, RightBracketError"
                             correctedText =
                                 err.correctedText |> List.head |> Maybe.withDefault "Could not get corrected text"
 
@@ -351,14 +370,12 @@ handleError state =
                         in
                         Loop
                             { state
-                                | blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0 }
+                                | blockLevels = { blanksSeen = 0, bracketLevel = 0, textLevel = 0, expectingRaw = NotExpecting }
                                 , lastTextCursor = Maybe.map resetError state.lastTextCursor
                             }
 
                     TextCursor.PipeError ->
                         let
-                            --_ =
-                            --    Debug.log "Parser.Lines.handleError, RightBracketError"
                             correctedText =
                                 err.correctedText |> List.head |> Maybe.withDefault "Could not get corrected text"
 
@@ -399,7 +416,27 @@ getParseResult stepState =
 -}
 toParsed : State -> List (List Element)
 toParsed state =
-    state.output |> List.map .parsed |> List.reverse
+    state.output |> List.map .parsed |> expandErrors |> List.reverse
+
+
+
+-- |> Debug.log "AST"
+
+
+expandErrorF : List Element -> List (List Element)
+expandErrorF list =
+    if Parser.Element.hasProblem list then
+        List.map (\x -> [ x ]) list |> List.reverse
+
+    else
+        [ list ]
+
+
+expandErrors : List (List Element) -> List (List Element)
+expandErrors elements =
+    elements
+        |> List.map expandErrorF
+        |> List.concat
 
 
 {-| Return the AST from the State.
